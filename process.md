@@ -26,28 +26,47 @@ The data will be complete. Because the simulation provides the information neede
 ## Visualization Design
 
 The first idea is to create a link node graph with the different links as the paths the units of the simulation travel.  The nodes do not contain information except the places where links meet.  The information for each link can be represented by the color of the graph.  This is in a heat map style with the color representing the attribute of the given variable.  This could be the number of one team in a link compared with the other.  The different attributes represted in the heat map will be selected from the two tables.  If the user were to click on an attribute the given attribute values would be displayed on the links.  This can be seen in Figure 1.  Below the link node graph in Figure 1, there is line chart that will show the overall stats for the given attribute.  This can also be linked to specific links that the user can choose.
+
 <img src="VIS fig1-page-001.jpg">
 
 The second idea is similar to the first.  The difference comes in the stroke width of the each link.  This allows the user to see one more attribute.  This can be the amount difference between each group at the link.  This also allows the user to see the main stream paths for the units throughout the graph.  At the bottom of Figure 2 the line graph is replaced with the stacked area chart.  The comparisons that come from the area chart aren't as clear as the line chart because the spatial position is not on the same scale position.
+
 <img src="VIS fig2-page-001.jpg">
 
 The third idea is creating a pie chart for each link.  The pie chart will contain the display the percentage of the attribute for each team at the given node.  The stroke of the pie chart or even the link can still display which team contains the most units on the link.  The pie charts are not as easy to read as the heat map layout.  The pie charts can display which team is doing better at a specific node, but it does not give specific values for the attribute.  The pie chart can become a problem when it comes to scaling the number of links in the graph.  If there are thousands of links in the graph then the pie charts will be overlapping each other and unviewable.  This same problem can come from using a bar chart at the bottom of Figure 3 instead of an stacked area chart or line chart.  The bar charts for each time stamp can be scaled to fit the page, but the amount of time stamps can make the bars thin and hard to read.
+
 <img src="VIS fig3-page-001.jpg">
 
 Our design will incorporate a few of the different aspects from each figure.  From all three figures we will have the two tables showing the general stats of each team at a given time stamp.  The time stamp stats can be controlled by the slider at the top of the each Figure.  The attribute can controlled by pressing the attributes in the table.  The figures above show the Reward attribute having been chosen.
+
 <img src="VIS fig1-page-002.jpg"> 
 <img src="VIS fig1-page-003.jpg">
+
 For the link node graph, the graph will initially be the graph in Figure 1.  This will contain the heat map of the data.  The links will be colored depending on the value of the attribute.  The heat map needs to occur this way because the game paths are not necessarily 2D.
+
 <img src="VIS fig1-page-004.jpg">
+
 This will be used initially to show the distribution of the team and the values of each attribute.  Creating the heat map for each attribute is an essential part for this visualization.  The viewer needs to be able to see the values of each attribute distributed throughout the graph to see trends or important links that teams use throughout simulations.  The stroke widths will be added to this graph if we have enough time and the scalability of the graph allows for the widths to be seen clearly.
+
 <img src="VIS fig2-page-002.jpg">
+
 The graph at the bottom of the viualization will be the line chart as each line can be clearly compared against the other team.  Trends will also be more clear with spatial positioning of each value at each time stamp.  The yellow bar will show where the current time stamp is located in comparison to the full line chart.
+
 <img src="VIS fig1-page-005.jpg">
 
 
 ## Must-Have Features
+We need to have a way to view the attributes of the game using a heat map given a specific time.  Looking at one specific time it essential to reading this data.  The overall stats at the given time stamp also need to be implemented.  The line chart at the bottom must also be visible to the the user to see trends of what occurs during each simulation.  Viewing what attributes leads to team success is one of the main objectives of this visualization.  If they heat map and overal trend of the data is not implemented then the cognitive load needed to accomplish this objective will increase.
+
+The user needs to also be able to choose which attribute they wish to view.  If they can only look at one attribute then finding which attribute helps in the simulation is rendered meaning less with this vis.  The user needs to be able to click on a specific attribute to see the heat map and its line chart representation.
 
 ## Optional Features
+
+The slider for each time stamp is a very useful tool when comparing different times throughout a simulation.  Though this is an important feature it is not a Must-Have.  If the slider is unavailable the data can still be rendered at one specific time.  The user would only need to view different data groups.  The availability of the slider also changes the line chart.  If there is not a slider to change the time stamp then the yellow bar to show the current time is not needed.
+
+The stroke width for the links is also an optional feature.  This is only useful if it does not clutter the graph.  If the graph is unreadable because the lines intersect too much then the graph is useless.
+
+First an overview of all the data is necessary.  A overview of each link is an optional feature to be added.  If a user were to click on a link then they could see the attribute values for that specific link at the given time stamp on the line chart.  An overall view of the data is best in helping viewers see trends in the data.  A link specific overview can help viewers find larger trends in how each interaction affects the outcome.
 
 ## Project Schedule
 
