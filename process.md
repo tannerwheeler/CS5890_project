@@ -69,4 +69,11 @@ The stroke width for the links is also an optional feature.  This is only useful
 First an overview of all the data is necessary.  A overview of each link is an optional feature to be added.  If a user were to click on a link then they could see the attribute values for that specific link at the given time stamp on the line chart.  An overall view of the data is best in helping viewers see trends in the data.  A link specific overview can help viewers find larger trends in how each interaction affects the outcome.
 
 ## Project Schedule
+| | Daniel| Tanner|
+|-|-|-|
+|Nov 11 - Nov 17|Convert Binary Data to JSON|Get greater understanding about the simulation data|
+|Nov 18 - Nov 24|Create the node link map and table|Creat the node link map and table|
+|Nov 25 - Dec 1|Create the overview line chart and time stamp slider|Creat the overview line chart and time stamp slider|
+|Dec 1 - Dec 8|Make Final Changes/Present|Make Final Changes/Present|
+|Dec 9 - Dec 15|Study for Finals/Final Project Evaluation|Study for Finals/Final Project Evaluation|
 
