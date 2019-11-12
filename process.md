@@ -34,9 +34,16 @@ The second idea is similar to the first.  The difference comes in the stroke wid
 The third idea is creating a pie chart for each link.  The pie chart will contain the display the percentage of the attribute for each team at the given node.  The stroke of the pie chart or even the link can still display which team contains the most units on the link.  The pie charts are not as easy to read as the heat map layout.  The pie charts can display which team is doing better at a specific node, but it does not give specific values for the attribute.  The pie chart can become a problem when it comes to scaling the number of links in the graph.  If there are thousands of links in the graph then the pie charts will be overlapping each other and unviewable.  This same problem can come from using a bar chart at the bottom of Figure 3 instead of an stacked area chart or line chart.  The bar charts for each time stamp can be scaled to fit the page, but the amount of time stamps can make the bars thin and hard to read.
 <img src="VIS fig3-page-001.jpg">
 
-Our design will incorporate a few of the different aspects from each figure.  From all three figures we will have the two tables showing the general stats of each team at a given time stamp.
+Our design will incorporate a few of the different aspects from each figure.  From all three figures we will have the two tables showing the general stats of each team at a given time stamp.  The time stamp stats can be controlled by the slider at the top of the each Figure.  The attribute can controlled by pressing the attributes in the table.  The figures above show the Reward attribute having been chosen.
+<img src="VIS fig1-page-002.jpg"> 
+<img src="VIS fig1-page-003.jpg">
+For the link node graph, the graph will initially be the graph in Figure 1.  This will contain the heat map of the data.  The links will be colored depending on the value of the attribute.  The heat map needs to occur this way because the game paths are not necessarily 2D.
+<img src="VIS fig1-page-004.jpg">
+This will be used initially to show the distribution of the team and the values of each attribute.  Creating the heat map for each attribute is an essential part for this visualization.  The viewer needs to be able to see the values of each attribute distributed throughout the graph to see trends or important links that teams use throughout simulations.  The stroke widths will be added to this graph if we have enough time and the scalability of the graph allows for the widths to be seen clearly.
+<img src="VIS fig2-page-002.jpg">
+The graph at the bottom of the viualization will be the line chart as each line can be clearly compared against the other team.  Trends will also be more clear with spatial positioning of each value at each time stamp.  The yellow bar will show where the current time stamp is located in comparison to the full line chart.
+<img src="VIS fig1-page-005.jpg">
 
-<img src="VIS fig1-page-002.jpg"><img src="VIS fig1-page-004">
 
 ## Must-Have Features
 
