@@ -22,6 +22,12 @@ The data will be complete. Because the simulation provides the information neede
 
 ## Visualization Design
 
+<img src="VIS fig1-page-001.jpg">
+
+<img src="VIS fig2-page-001.jpg">
+
+<img src="VIS fig3-page-001.jpg">
+
 ## Must-Have Features
 
 ## Optional Features
