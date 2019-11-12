@@ -50,7 +50,7 @@ This will be used initially to show the distribution of the team and the values 
 
 <img src="VIS fig2-page-002.jpg">
 
-The graph at the bottom of the viualization will be the line chart as each line can be clearly compared against the other team.  Trends will also be more clear with spatial positioning of each value at each time stamp.  The yellow bar will show where the current time stamp is located in comparison to the full line chart.
+Two line charts at the bottom of the viualization will be used to compare different attributes and the other team.  Trends will also be more clear with spatial positioning of each value at each time stamp.  The yellow bar will show where the current time stamp is located in comparison to the full line chart.
 
 <img src="VIS fig1-page-005.jpg">
 
@@ -67,6 +67,8 @@ The slider for each time stamp is a very useful tool when comparing different ti
 The stroke width for the links is also an optional feature.  This is only useful if it does not clutter the graph.  If the graph is unreadable because the lines intersect too much then the graph is useless.
 
 First an overview of all the data is necessary.  A overview of each link is an optional feature to be added.  If a user were to click on a link then they could see the attribute values for that specific link at the given time stamp on the line chart.  An overall view of the data is best in helping viewers see trends in the data.  A link specific overview can help viewers find larger trends in how each interaction affects the outcome.
+
+Finally, brushing can be added to select a group of links in the node link graph to compare the change in attributes over time.  This will lead into further indepth analysis of each link.
 
 ## Project Schedule
 | | Daniel| Tanner|
