@@ -1,5 +1,5 @@
 ## Basic Info
-### Multi-Agent Reinforcement Learning Visualization
+### Multi-Agent Reinforcement Learning Visualization (MAR'V)
 
 Contributers: 
 
