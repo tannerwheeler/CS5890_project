@@ -71,13 +71,14 @@ class Table {
 		let teamTwoReward = 0;
 		
 		let list = Object.values(this.vizData['playerData']);
-		console.log(list);
+		let items = Object.values(this.vizData['itemData']);
+		console.log(items);
 		
 		for(let i=0; i < list.length; i++)
 		{
 			if(list[i][time]['player_team'] == 1)
 			{
-				console.log(1);
+				//console.log(1);
 				teamOneCount++;
 				teamOneFuel += list[i][time]['fuel'];
 				teamOneHealth += list[i][time]['health'];
@@ -85,7 +86,7 @@ class Table {
 			}
 			else if (list[i][time]['player_team'] == -1)
 			{
-				console.log(-1);
+				//console.log(-1);
 				teamTwoCount++;
 				teamTwoFuel += list[i][time]['fuel'];
 				teamTwoHealth += list[i][time]['health'];
@@ -93,26 +94,23 @@ class Table {
 			}
 		}
 		
-		console.log(teamOneCount);
-		console.log(teamTwoCount);
-		
 		let ht1 = d3.select('#Healtht1')
-			.html(teamOneHealth);
+			.html(teamOneHealth.toFixed(2));
 			
 		let ht2 = d3.select('#Healtht2')
-			.html(teamTwoHealth);
+			.html(teamTwoHealth.toFixed(2));
 			
 		let ft1 = d3.select('#Fuelt1')
-			.html(teamOneFuel);
+			.html(teamOneFuel.toFixed(2));
 		
 		let ft2 = d3.select('#Fuelt2')
-			.html(teamTwoFuel);
+			.html(teamTwoFuel.toFixed(2));
 			
 		let rt1 = d3.select('#Rewardt1')
-			.html(teamOneReward);
+			.html(teamOneReward.toFixed(2));
 		
 		let rt2 = d3.select('#Rewardt2')
-			.html(teamTwoReward);
+			.html(teamTwoReward.toFixed(2));
 			
 			
 	}

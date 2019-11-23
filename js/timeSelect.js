@@ -28,6 +28,6 @@ class TimeSelect{
 		;
 		
 		this.nodeGraph.createGraph(this.data, 0);
-		this.table.updateTable(350);
+		this.table.updateTable(0);
   };
 }
