@@ -113,7 +113,7 @@ The two main designs considered for map of the playing field were a node link gr
 
 ## Implementation
 
-Interaction has not be implemented in this stage of the process.  However, the sliding input will be able to choose the time stamp of the data.  This will update the table, the node link graph, and the time series graph.  Once these have been updated cells of the table can be selected to view different time series graphs for different attributes.  
+Interaction has not be implemented in this stage of the process.  However, the sliding input will be able to choose the time stamp of the data.  This will update the table, the node link graph, and the time series graph.  Once these have been updated cells of the table can be selected to view different time series graphs for different attributes.  (The time series graphs have been implemented, but are not pictured in the image below. It shows the overal values for each team for the whole simulation and how they change overtime.)
 
 <img src="proposal/prototypefull.jpg">
 
