@@ -91,7 +91,8 @@ class Table {
 			}
 		}
 		
-		
+		console.log(teamOneCount);
+		console.log(teamTwoCount);
 		
 	}
 
