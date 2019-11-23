@@ -1,0 +1,42 @@
+<!DOCUMENT html>
+<html>
+<head>
+
+	<title>Test Page</title>
+	<!--script src="https://d3js.org/d3.v4.js"></script-->
+    <script src="d3.js"></script>
+	
+</head>
+<body>
+	<table>
+		<thead>
+			<tr>
+				<th></th>
+				<th id="Team1">Team 1</th>
+				<th id="Team2">Team 2</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class="unitHeader">Health</td>
+				<td id="Healtht1"><!-- A bar chart needs to be added dynamically here --></td>
+				<td id="Healtht2"><!-- A bar chart needs to be added dynamically here --></td>
+			</tr>
+			<tr>
+				<td class="unitHeader">Fuel</td>
+				<td id="Fuelt1"><!-- A numeric value for fuel needs to be added dynamically here --></td>
+				<td id="Fuelt2"><!-- A numeric value for fuel needs to be added dynamically here --></td>
+			</tr>
+			<tr>
+				<td class="unitHeader">Reward</td>
+				<td id="Rewardt1"><!-- A numeric value for reward needs to be added dynamically here --></td>
+				<td id="Rewardt2"><!-- A numeric value for reward needs to be added dynamically here --></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<svg id="test" width="1000" height="1000"></svg>
+	<script type="application/javascript" src="./script.js"></script>
+
+</body>
+</html>

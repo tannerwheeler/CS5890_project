@@ -1,41 +1,60 @@
-<!doctype html>
-<html class="no-js" lang="">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title></title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <link rel="manifest" href="site.webmanifest">
-  <link rel="apple-touch-icon" href="icon.png">
-  <!-- Place favicon.ico in the root directory -->
-
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/main.css">
-
-  <meta name="theme-color" content="#fafafa">
+  <meta charset="UTF-8">
+  <title>Visualization - Final Project</title>
+  <script src="js/d3.js"></script>
 </head>
-
 <body>
-  <!--[if IE]>
-    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-  <![endif]-->
+<h1> Data Visualization Final Project</h1>
+<p> Name: Daniel Mortensen; E-Mail: daniel.t.mortensen@gmail.com; A#: A01574901</p>
+<p> Name: Tanner Wheeler; E-Mail tanner.wheeler@aggiemail.usu.edu; A#01770306</p>
 
-  <!-- Add your site or application content here -->
-  <p>Hello world! This is HTML5 Boilerplate.</p>
-  <script src="js/vendor/modernizr-3.7.1.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
-  <script src="js/plugins.js"></script>
-  <script src="js/main.js"></script>
+<div id="slider">
+  <input type="range" min="0" max="1" value="50">
+  <p>0</p>
+</div>
 
-  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-  <script>
-    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
-    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set','transport','beacon'); ga('send', 'pageview')
-  </script>
-  <script src="https://www.google-analytics.com/analytics.js" async></script>
+
+<div id="teamTable" style="width:200px"> <table>
+  <thead>
+  <tr>
+    <th></th>
+    <th id="Team1">Team 1</th>
+    <th id="Team2">Team 2</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td class="unitHeader">Health</td>
+    <td id="Healtht1"><!-- A bar chart needs to be added dynamically here --></td>
+    <td id="Healtht2"><!-- A bar chart needs to be added dynamically here --></td>
+  </tr>
+  <tr>
+    <td class="unitHeader">Fuel</td>
+    <td id="Fuelt1"><!-- A numeric value for fuel needs to be added dynamically here --></td>
+    <td id="Fuelt2"><!-- A numeric value for fuel needs to be added dynamically here --></td>
+  </tr>
+  <tr>
+    <td class="unitHeader">Reward</td>
+    <td id="Rewardt1"><!-- A numeric value for reward needs to be added dynamically here --></td>
+    <td id="Rewardt2"><!-- A numeric value for reward needs to be added dynamically here --></td>
+  </tr>
+  </tbody>
+</table></div>
+
+<div id="nodeGraph">
+  <svg width="1000" height="1000"></svg>
+</div>
+
+
+<div id="timeSeriesGraph1"> </div>
+<div id="timeSeriesGraph2"> </div>
+<script src="https://unpkg.com/d3-simple-slider"></script>
+<script type="application/javascript" src="js/timeSelect.js"></script>
+<script type="application/javascript" src="js/table.js"></script>
+<script type="application/javascript" src="js/nodeGraph.js"></script>
+<script type="application/javascript" src="js/timeSeriesGraph.js"></script>
+<script type="application/javascript" src="js/script.js"></script>
 </body>
-
 </html>
