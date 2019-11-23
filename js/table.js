@@ -77,6 +77,7 @@ class Table {
 		{
 			if(list[i][time]['player_team'] == 1)
 			{
+				console.log(1);
 				teamOneCount++;
 				teamOneFuel += list[i][time]['fuel'];
 				teamOneHealth += list[i][time]['health'];
@@ -84,6 +85,7 @@ class Table {
 			}
 			else if (list[i][time]['player_team'] == -1)
 			{
+				console.log(-1);
 				teamTwoCount++;
 				teamTwoFuel += list[i][time]['fuel'];
 				teamTwoHealth += list[i][time]['health'];
@@ -94,6 +96,25 @@ class Table {
 		console.log(teamOneCount);
 		console.log(teamTwoCount);
 		
+		let ht1 = d3.select('#Healtht1')
+			.html(teamOneHealth);
+			
+		let ht2 = d3.select('#Healtht2')
+			.html(teamTwoHealth);
+			
+		let ft1 = d3.select('#Fuelt1')
+			.html(teamOneFuel);
+		
+		let ft2 = d3.select('#Fuelt2')
+			.html(teamTwoFuel);
+			
+		let rt1 = d3.select('#Rewardt1')
+			.html(teamOneReward);
+		
+		let rt2 = d3.select('#Rewardt2')
+			.html(teamTwoReward);
+			
+			
 	}
 
   /**

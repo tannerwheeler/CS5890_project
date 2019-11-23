@@ -24,9 +24,10 @@ class TimeSelect{
 			.attr('max', 300)
 			.attr('min', 0)
 			.attr('value', 0);
+			//Create Callback
 		;
 		
 		this.nodeGraph.createGraph(this.data, 0);
-		this.table.updateTable(0);
+		this.table.updateTable(350);
   };
 }
