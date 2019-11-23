@@ -1,62 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Visualization - Final Project</title>
-		<script src="js/d3.js"></script>
-    </head>
-    <body>
-        <h1> Data Visualization Final Project</h1>
-        <p> Name: Daniel Mortensen; E-Mail: daniel.t.mortensen@gmail.com; A#: A01574901</p>
-        <p> Name: Tanner Wheeler; E-Mail tanner.wheeler@aggiemail.usu.edu; A#01770306</p>
+<head>
+  <meta charset="UTF-8">
+  <title>Visualization - Final Project</title>
+  <script src="js/d3.js"></script>
+</head>
+<body>
+<h1> Data Visualization Final Project</h1>
+<p> Name: Daniel Mortensen; E-Mail: daniel.t.mortensen@gmail.com; A#: A01574901</p>
+<p> Name: Tanner Wheeler; E-Mail tanner.wheeler@aggiemail.usu.edu; A#01770306</p>
 
-		<div id="slider">
-			<input type="range" min="0" max="1" value="50">
-			<p>0</p>
-		</div>
-    <div id="timeSeriesGraph1"> </div>
-    <div id="timeSeriesGraph2"> </div>
-    <div id="teamTable"> <table>
-			<thead>
-				<tr>
-					<th></th>
-					<th id="Team1">Team 1</th>
-					<th id="Team2">Team 2</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td class="unitHeader">Health</td>
-					<td id="Healtht1"><!-- A bar chart needs to be added dynamically here --></td>
-					<td id="Healtht2"><!-- A bar chart needs to be added dynamically here --></td>
-				</tr>
-				<tr>
-					<td class="unitHeader">Fuel</td>
-					<td id="Fuelt1"><!-- A numeric value for fuel needs to be added dynamically here --></td>
-					<td id="Fuelt2"><!-- A numeric value for fuel needs to be added dynamically here --></td>
-				</tr>
-				<tr>
-					<td class="unitHeader">Reward</td>
-					<td id="Rewardt1"><!-- A numeric value for reward needs to be added dynamically here --></td>
-					<td id="Rewardt2"><!-- A numeric value for reward needs to be added dynamically here --></td>
-				</tr>
-			</tbody>
-		</table></div>
+<div id="slider">
+  <input type="range" min="0" max="1" value="50">
+  <p>0</p>
+</div>
 
-        <div id="nodeGraph">
-			<svg width="1000" height="1000"></svg>
-		</div>
 
-        <div id="timeSeriesGraph">
-			<svg id="firstGraph"></svg>
-			<svg id="secondGraph"></svg>
-		</div>
+<div id="teamTable" style="width:200px"> <table>
+  <thead>
+  <tr>
+    <th></th>
+    <th id="Team1">Team 1</th>
+    <th id="Team2">Team 2</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td class="unitHeader">Health</td>
+    <td id="Healtht1"><!-- A bar chart needs to be added dynamically here --></td>
+    <td id="Healtht2"><!-- A bar chart needs to be added dynamically here --></td>
+  </tr>
+  <tr>
+    <td class="unitHeader">Fuel</td>
+    <td id="Fuelt1"><!-- A numeric value for fuel needs to be added dynamically here --></td>
+    <td id="Fuelt2"><!-- A numeric value for fuel needs to be added dynamically here --></td>
+  </tr>
+  <tr>
+    <td class="unitHeader">Reward</td>
+    <td id="Rewardt1"><!-- A numeric value for reward needs to be added dynamically here --></td>
+    <td id="Rewardt2"><!-- A numeric value for reward needs to be added dynamically here --></td>
+  </tr>
+  </tbody>
+</table></div>
 
-		<script src="https://unpkg.com/d3-simple-slider"></script>
-		<script type="application/javascript" src="js/timeSelect.js"></script>
-        <script type="application/javascript" src="js/table.js"></script>
-        <script type="application/javascript" src="js/nodeGraph.js"></script>
-        <script type="application/javascript" src="js/timeSeriesGraph.js"></script>
-        <script type="application/javascript" src="js/script.js"></script>
-    </body>
+<div id="nodeGraph">
+  <svg width="1000" height="1000"></svg>
+</div>
+
+
+<div id="timeSeriesGraph1"> </div>
+<div id="timeSeriesGraph2"> </div>
+<script src="https://unpkg.com/d3-simple-slider"></script>
+<script type="application/javascript" src="js/timeSelect.js"></script>
+<script type="application/javascript" src="js/table.js"></script>
+<script type="application/javascript" src="js/nodeGraph.js"></script>
+<script type="application/javascript" src="js/timeSeriesGraph.js"></script>
+<script type="application/javascript" src="js/script.js"></script>
+</body>
 </html>
