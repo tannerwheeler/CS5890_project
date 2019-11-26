@@ -110,9 +110,10 @@ class NodeGraph {
 		{
 			this.variable = variable;
 		}
+		
 		if(time != -1)
 		{
-			this.time = time
+			this.time = time;
 		}
 		
 		console.log(this.variable, time);
