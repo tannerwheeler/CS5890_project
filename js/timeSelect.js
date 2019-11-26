@@ -94,15 +94,15 @@ class TimeSelect{
 			})
 			.on('click', d => {
 				d3.select('#timeSelect')
-					.html('Current Time: ' + d)
+					.html('Current Simulation Time: ' + d)
 				;
 				
-				this.nodeGraph.updateGraph(d);
+				this.nodeGraph.updateGraph(d, 'current');
 				this.table.updateTable(d);
 			})
 		;
 		
-		this.nodeGraph.createGraph(this.data, 0);
+		this.nodeGraph.createGraph(0);
 		this.table.updateTable(0);
   };
 }

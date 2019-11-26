@@ -2,7 +2,7 @@ d3.json('data/gameData.json').then(function(data) {
 	console.log(data);
 
 	let tsg = new TimeSeriesGraph(data);
-	let graph = new NodeGraph();
+	let graph = new NodeGraph(data);
 	let table = new Table(data, graph, tsg);
 	let slider = new TimeSelect(data, table, graph, tsg);
 

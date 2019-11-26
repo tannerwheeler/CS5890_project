@@ -3,8 +3,11 @@ class NodeGraph {
     /**
      * Creates a Tree Object
      */
-    constructor() {
+    constructor(dataset) {
 		console.log('node graph');
+		this.data = dataset;
+		this.variable = 'players';
+		this.time = 0;
     }
 
     /**
@@ -14,9 +17,9 @@ class NodeGraph {
      * @param treeData an array of objects that contain parent/child
      * information.
      */
-  createGraph(data, time) {
+  createGraph(time) {
 	  let count = 0;
-	let help = data['graphData'];
+	let help = this.data['graphData'];
 	
 	//console.log(help);
 	
@@ -85,13 +88,13 @@ class NodeGraph {
 			Q ${Math.abs(d['edgeEndNode']*xmod + 200 +d['edgeStartNode']*xmod)/2} ${bump}
 			${d['edgeEndNode']*xmod + 100} ${d['edgeEndNode']%mod * ymod + 100}`;
 		})
-		.attr('id', (d,i) => 'link#' + Object.keys(help)[i] )
+		.attr('id', (d,i) => 'link_' + Object.keys(help)[i] )
 		.attr('fill', 'none')
 		// .attr('stroke-width', '2')
 		.attr('stroke', 'black')
 	;
 	
-	this.updateGraph(0, 'players');
+	this.updateGraph(0, 'current');
   };
 
   /**
@@ -99,11 +102,102 @@ class NodeGraph {
    * of each link based on the percentage of players that are on that link and which
    * team has the majority.
    *
-   * @param time: specific time of the simulation.  
-   *        variable: selected variable.
+   * @param time: specific time of the simulation. (send -1 if you don't want to change the time). 
+   *        variable: selected variable. (send 'current' if you don't want to change the variable).
    */
 	updateGraph(time, variable) {
-		console.log('updateGraph');
+		if(variable != 'current')
+		{
+			this.variable = variable;
+		}
+		if(time != -1)
+		{
+			this.time = time
+		}
+		
+		console.log(this.variable, time);
+		let list = Object.keys(this.data['graphData']);
+		
+		let linkData = {};
+		
+		if(this.variable == 'players')
+		{	
+			for(let i=0; i < list.length; i++)
+			{
+				//console.log(list[i]);
+				linkData[list[i]] = {'redTeam' : 0, 'blueTeam' : 0};
+			}
+			
+			for(let key in this.data['playerData'])
+			{
+				//console.log(key);
+				let edge = this.data['playerData'][key][this.time]['player_edge'];
+				//linkData[key[this.time]['player_edge']]++;
+				
+				if(this.data['playerData'][key][this.time]['player_team'] == 1)
+				{
+					linkData[edge];
+					linkData[edge]['redTeam']++;
+				}
+				else if(this.data['playerData'][key][this.time]['player_team'] == -1)
+				{
+					linkData[edge]['blueTeam']++;
+				}
+			}
+		}
+		
+		console.log(linkData);
+		
+		for(let i=0; i < list.length; i++)
+		{
+			let foo = linkData[list[i]];
+			
+			let path = d3.select('#link_' + list[i])
+				.style('stroke', d => {
+					if(foo['redTeam'] > foo['blueTeam'])
+					{
+						return 'red';
+					}
+					else if(foo['redTeam'] < foo['blueTeam'])
+					{
+						return 'blue';
+					}
+					else
+					{
+						return 'green';
+					}
+				})
+				.style('stroke-width', d => {
+					if(foo['redTeam'] > foo['blueTeam'])
+					{
+						let scale = foo['redTeam'] / (foo['redTeam'] + foo['blueTeam']);
+						
+						if(.5 < scale < .75)
+							return 3;
+						if(.75 < scale <= 1.0)
+							return 4;
+					}
+					else if(foo['redTeam'] < foo['blueTeam'])
+					{
+						let scale = foo['blueTeam'] / (foo['redTeam'] + foo['blueTeam']);
+						
+						if(.5 < scale < .75)
+							return 3;
+						if(.75 < scale <= 1.0)
+							return 4;
+					}
+					else
+					{
+						let scale = foo['redTeam'] / (foo['redTeam'] + foo['blueTeam']);
+						
+						if(scale == .5)
+							return 2;
+						else
+							return 1;
+					}
+				})
+				;
+		}
 	}
 
   /**
