@@ -4,7 +4,7 @@ class TimeSelect{
      */
     constructor(data, table, nodeGraph, timeSeriesGraph) {
 		console.log('timeSelect');
-		
+
 		this.nodeGraph = nodeGraph;
 		this.table = table;
 		this.data = data;
@@ -20,24 +20,24 @@ class TimeSelect{
      */
 	createSlider() {
 		let foo = [];
-		
+
 		let size = 0;
-		
+
 		while(size < this.data['itemData'][Object.keys(this.data['itemData'])[0]].length)
 		{
 			foo.push(size);
 			size++;
 		}
-		
+
 		let svg = d3.select('#barSlider');
-		
+
 		let bars = svg.selectAll('g')
 			.data(foo)
 			.enter()
 		;
-		
+
 		let shift = 3;
-		
+
 		bars.append('g')
 			.attr('id', d => 'mark' + d )
 			.append('rect')
@@ -47,19 +47,19 @@ class TimeSelect{
 			.attr('height', 20)
 			.on('mouseover', d => {
 				let choice = d3.select('#mark' + d);
-				
+
 				choice.selectAll('rect')
 					.attr('y', 6)
 					.attr('height', 59)
 				;
-				
+
 				choice.append('circle')
 					.attr('cx', d => d*shift+1.5 )
 					.attr('cy', 6)
 					.attr('r', 4)
 					.style('fill', 'red')
 				;
-				
+
 				choice.append('text')
 					.attr('x', d => d*shift +8)
 					.attr('y', 16)
@@ -76,32 +76,33 @@ class TimeSelect{
 						{
 							return d;
 						}
-							
+
 					})
 				;
 			})
 			.on('mouseout', d => {
 				let choice = d3.select('#mark' + d);
-				
+
 				choice.selectAll('rect')
 					.attr('y', 26)
 					.attr('height', 20)
 				;
-				
+
 				choice.selectAll('circle').remove();
-				
+
 				choice.selectAll('text').remove();
 			})
 			.on('click', d => {
 				d3.select('#timeSelect')
 					.html('Current Simulation Time: ' + d)
 				;
-				
+
 				this.nodeGraph.updateGraph(d, 'current');
+				this.timeSeriesGraph.updateGraph(1,d,'current');
 				this.table.updateTable(d);
 			})
 		;
-		
+
 		this.nodeGraph.createGraph(0);
 		this.table.updateTable(0);
   };

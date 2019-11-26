@@ -7,14 +7,13 @@ class TimeSeriesGraph {
 	  console.log('tsg');
 	// Create a common scale for both graphs
 	this.data = graphData;
+	this.attribute = "health";
   };
 
   /**
-   * TODO: add axis labels
    * TODO: add legend of some sort
    * TODO: generalize functions and code to be reused in second figure
    * TODO: decrease cyclomatic complexity by breaking into sub-functions
-   * TODO: add indicator of which time step was passed in
    * Updates the global tableElements variable, with a row for each row
    * to be rendered in the table.
    */
@@ -30,6 +29,12 @@ class TimeSeriesGraph {
     let graphHeight = svgHeight - 100 - yMargin;
     let axisBuffer = 10;
     let nTicks = 36;
+
+    //update graph parameters
+    if(attribute !== 'current')
+    {
+      this.attribute = attribute;
+    }
 
     //define data driven parameters and structures
     let playerData = this.data['playerData'];
@@ -73,14 +78,14 @@ class TimeSeriesGraph {
       for(let j=0; j<nTeam1; j++)
       {
         let player = playerData[keys1[j]];
-        attributeData1[i] = attributeData1[i] + player[i][attribute];
+        attributeData1[i] = attributeData1[i] + player[i][this.attribute];
       }
 
       attributeData2[i] = 0;
       for(let j=0; j<nTeam2; j++)
       {
         let player = playerData[keys2[j]];
-        attributeData2[i] = attributeData2[i] + player[i][attribute];
+        attributeData2[i] = attributeData2[i] + player[i][this.attribute];
       }
 
     }
@@ -163,7 +168,7 @@ class TimeSeriesGraph {
       .attr('x',0 - graphHeight/2 - yMargin)
       .attr('y',50)
       .style("text-anchor","middle")
-      .text(attribute);
+      .text(this.attribute);
 
     //add current time indicator
     svg.append('rect')
@@ -173,6 +178,7 @@ class TimeSeriesGraph {
       .attr('x',yAxisWidth + axisBuffer - tickDiff/2 + xScale(time))
       .attr('y',axisBuffer + yMargin)
       .style('opacity',0.5);
+    console.log(time);
   }
 
 
