@@ -61,6 +61,9 @@ class Table {
    * variable tableElements.
    */
 	updateTable(time) {
+		
+		console.log(time);
+		
 		let teamOneCount = 0;
 		let teamTwoCount = 0;
 		let teamOneFuel = 0;
@@ -72,7 +75,7 @@ class Table {
 		
 		let list = Object.values(this.vizData['playerData']);
 		let items = Object.values(this.vizData['itemData']);
-		console.log(items);
+		//console.log(items);
 		
 		for(let i=0; i < list.length; i++)
 		{

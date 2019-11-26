@@ -18,12 +18,12 @@ class NodeGraph {
 	  let count = 0;
 	let help = data['graphData'];
 	
-	console.log(help);
+	//console.log(help);
 	
 	//let ent = help.entries();
 	
 	for(let link in help) {
-		console.log(help[link]);
+		//console.log(help[link]);
 		if(count < help[link]['edgeStartNode'])
 		{
 			
@@ -31,7 +31,7 @@ class NodeGraph {
 		}
 	}
 	
-	console.log(count);
+	//console.log(count);
 	
 	let myList = [];
 	
@@ -40,7 +40,7 @@ class NodeGraph {
 		myList.push(i);
 	}
 	
-	console.log(myList);
+	//console.log(myList);
 	
 	let svg = d3.select("#nodeGraph")
 		.select('svg')
@@ -67,7 +67,7 @@ class NodeGraph {
 		.enter()
 	;
 	
-	console.log(Object.values(help));
+	console.log(Object.keys(help));
 	
 	lines.append('path')
 		.attr('d', d => { 
@@ -85,21 +85,26 @@ class NodeGraph {
 			Q ${Math.abs(d['edgeEndNode']*xmod + 200 +d['edgeStartNode']*xmod)/2} ${bump}
 			${d['edgeEndNode']*xmod + 100} ${d['edgeEndNode']%mod * ymod + 100}`;
 		})
+		.attr('id', (d,i) => 'link#' + Object.keys(help)[i] )
 		.attr('fill', 'none')
-		.attr('stroke-width', '2')
+		// .attr('stroke-width', '2')
 		.attr('stroke', 'black')
 	;
+	
+	this.updateGraph(0, 'players');
   };
 
   /**
-   * Updates the highlighting in the tree based on the selected team.
-   * Highlights the appropriate team nodes and labels.
+   * Updates the link colors based on the attribute selected.  Updates the widths
+   * of each link based on the percentage of players that are on that link and which
+   * team has the majority.
    *
-   * @param row a string specifying which team was selected in the table.
+   * @param time: specific time of the simulation.  
+   *        variable: selected variable.
    */
-  updateGraph(row) {
-    
-  }
+	updateGraph(time, variable) {
+		console.log('updateGraph');
+	}
 
   /**
    * Removes all highlighting from the tree.
