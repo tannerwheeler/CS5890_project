@@ -21,12 +21,13 @@ class TimeSeriesGraph {
   updateFirstGraph(time, attribute) {
 
     //define positional parameters
-    let svgHeight = 300;
+    let svgHeight = 400;
     let svgWidth = 1000;
+    let yMargin = 70;
     let yAxisWidth = 75;
     let xAxisHeight = 20;
     let xAxisWidth = svgWidth - yAxisWidth - 25;
-    let height = svgHeight - 50;
+    let graphHeight = svgHeight - 100 - yMargin;
     let axisBuffer = 10;
     let nTicks = 36;
 
@@ -109,27 +110,29 @@ class TimeSeriesGraph {
     let maxVal = d3.max([d3.max(attributeData1),d3.max(attributeData2)]);
     let yScale = d3.scaleLinear()
       .domain([0,maxVal])
-      .range([height, 0]);
+      .range([graphHeight, 0]);
 
     //define y axis
     let yAxis = d3.axisLeft(yScale);
 
     //show x axis
     let xAxisGroup = svg.append("g")
-      .attr('transform',`translate(${yAxisWidth + axisBuffer}, ${height + xAxisHeight})`)
+      .attr('transform',`translate(${yAxisWidth + axisBuffer}, ${graphHeight + xAxisHeight + yMargin})`)
+      .attr("id","xAxis")
       .call(xAxis)
       .selectAll("text")
       .attr("transform","translate(0,5)rotate(0)");
 
     //show y axis
     svg.append("g")
-      .attr('transform',`translate(${yAxisWidth},${axisBuffer})`)
+      .attr("id","yAxis")
+      .attr('transform',`translate(${yAxisWidth},${axisBuffer + yMargin})`)
       .call(yAxis);
 
     //define line parameters
     let line = d3.line()
       .x(function(d,i){return xScale(i) + yAxisWidth + axisBuffer;})
-      .y(function(d){return yScale(d) + xAxisHeight - axisBuffer;})
+      .y(function(d){return yScale(d) + xAxisHeight - axisBuffer + yMargin;})
       .curve(d3.curveMonotoneX);
 
     //plot team 1 data
@@ -148,7 +151,30 @@ class TimeSeriesGraph {
       .attr("stroke","red")
       .attr("stroke-width",1.5)
       .attr("d",line);
+
+    //add labels
+    svg.append("text")
+      .attr("transform",`translate(${yAxisWidth + axisBuffer + xAxisWidth/2}, ${graphHeight + xAxisHeight + 40 + yMargin})`)
+      .style("text-anchor","middle")
+      .text("Time Step");
+
+    svg.append("text")
+      .attr('transform',`rotate(-90)`)
+      .attr('x',0 - graphHeight/2 - yMargin)
+      .attr('y',50)
+      .style("text-anchor","middle")
+      .text(attribute);
+
+    //add current time indicator
+    svg.append('rect')
+      .attr('width',tickDiff)
+      .attr('height',graphHeight)
+      .attr('fill','yellow')
+      .attr('x',yAxisWidth + axisBuffer - tickDiff/2 + xScale(time))
+      .attr('y',axisBuffer + yMargin)
+      .style('opacity',0.5);
   }
+
 
   updateSecondGraph(time, attribute) {
 	  //updateGraph(/*secondGraph ID*/, time, attribute);
