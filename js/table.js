@@ -97,6 +97,50 @@ class Table {
 			}
 		}
 		
+		let table = this;
+		
+		let pos = d3.select('#Positions')
+			.select('button')
+			.on('click', function() {
+				table.map.updateGraph(0, 'players', 0);
+			})
+		;
+		
+		let tm1 = d3.select('#Team1')
+			.select('button')
+			.on('click', function() {
+				table.map.updateGraph(0, 'current', 1);
+			})
+		;
+		
+		let tm2 = d3.select('#Team2')
+			.select('button')
+			.on('click', function() {
+				table.map.updateGraph(0, 'current', -1);
+			})
+		;
+		
+		let health = d3.select('#Health')
+			.select('button')
+			.on('click', function() {
+				table.map.updateGraph(-1, 'health', 1);
+			})
+		;
+		
+		let fuel = d3.select('#Fuel')
+			.select('button')
+			.on('click', function() {
+				table.map.updateGraph(-1, 'fuel', 1);
+			})
+		;
+		
+		let reward = d3.select('#Reward')
+			.select('button')
+			.on('click', function() {
+				table.map.updateGraph(-1, 'reward', 1);
+			})
+		;
+		
 		let ht1 = d3.select('#Healtht1')
 			.html(teamOneHealth.toFixed(2));
 			

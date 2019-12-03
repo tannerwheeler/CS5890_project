@@ -96,9 +96,7 @@ class TimeSelect{
 				d3.select('#timeSelect')
 					.html('Current Simulation Time: ' + d)
 				;
-
-				this.nodeGraph.updateGraph(d, 'current');
-				this.timeSeriesGraph.updateGraph(1,d,'current');
+				this.nodeGraph.updateGraph(d, 'current', 1000);
 				this.table.updateTable(d);
 				this.timeSeriesGraph.updateGraph('1',d,'reward');
 			})

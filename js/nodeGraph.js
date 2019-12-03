@@ -8,6 +8,7 @@ class NodeGraph {
 		this.data = dataset;
 		this.variable = 'players';
 		this.time = 0;
+		this.team = 0;
     }
 
     /**
@@ -94,7 +95,7 @@ class NodeGraph {
 		.attr('stroke', 'black')
 	;
 	
-	this.updateGraph(0, 'current');
+	this.updateGraph(0, 'current', 0);
   };
 
   /**
@@ -104,8 +105,9 @@ class NodeGraph {
    *
    * @param time: specific time of the simulation. (send -1 if you don't want to change the time). 
    *        variable: selected variable. (send 'current' if you don't want to change the variable).
+   *		team: selected team. (send 0 if you don't want a specific team.  Send 1000 if you don't want to change the team.)
    */
-	updateGraph(time, variable) {
+	updateGraph(time, variable, team) {
 		if(variable != 'current')
 		{
 			this.variable = variable;
@@ -116,7 +118,12 @@ class NodeGraph {
 			this.time = time;
 		}
 		
-		console.log(this.variable, time);
+		if(team != 1000)
+		{
+			this.team = team;
+		}
+		
+		console.log(this.variable, this.time, this.team);
 		let list = Object.keys(this.data['graphData']);
 		
 		let linkData = {};
@@ -135,70 +142,87 @@ class NodeGraph {
 				let edge = this.data['playerData'][key][this.time]['player_edge'];
 				//linkData[key[this.time]['player_edge']]++;
 				
-				if(this.data['playerData'][key][this.time]['player_team'] == 1)
+				if(this.data['playerData'][key][this.time]['player_team'] == 1 && (this.team == 1 || this.team == 0))
 				{
 					linkData[edge];
 					linkData[edge]['redTeam']++;
 				}
-				else if(this.data['playerData'][key][this.time]['player_team'] == -1)
+				else if(this.data['playerData'][key][this.time]['player_team'] == -1 && (this.team == -1 || this.team == 0))
 				{
 					linkData[edge]['blueTeam']++;
 				}
 			}
+			
+			for(let i=0; i < list.length; i++)
+			{
+				let foo = linkData[list[i]];
+				
+				let path = d3.select('#link_' + list[i])
+					.style('stroke', d => {
+						if(foo['redTeam'] > foo['blueTeam'])
+						{
+							return 'red';
+						}
+						else if(foo['redTeam'] < foo['blueTeam'])
+						{
+							return 'blue';
+						}
+						else
+						{
+							return 'green';
+						}
+					})
+					.style('stroke-width', d => {
+						if(foo['redTeam'] > foo['blueTeam'])
+						{
+							let scale = foo['redTeam'] / (foo['redTeam'] + foo['blueTeam']);
+							
+							if(.5 < scale < .75)
+								return 3;
+							if(.75 < scale <= 1.0)
+								return 4;
+						}
+						else if(foo['redTeam'] < foo['blueTeam'])
+						{
+							let scale = foo['blueTeam'] / (foo['redTeam'] + foo['blueTeam']);
+							
+							if(.5 < scale < .75)
+								return 3;
+							if(.75 < scale <= 1.0)
+								return 4;
+						}
+						else
+						{
+							let scale = foo['redTeam'] / (foo['redTeam'] + foo['blueTeam']);
+							
+							if(scale == .5)
+								return 2;
+							else
+								return 1;
+						}
+					})
+				;
+			}
+		}
+		
+		if(this.variable == 'health')
+		{
+			console.log('Health');
+		}
+		
+		if(this.variable == 'fuel')
+		{
+			console.log('Fuel');
+		}
+		
+		if(this.variable == 'reward')
+		{
+			console.log('Reward');
 		}
 		
 		console.log(linkData);
 		
-		for(let i=0; i < list.length; i++)
-		{
-			let foo = linkData[list[i]];
-			
-			let path = d3.select('#link_' + list[i])
-				.style('stroke', d => {
-					if(foo['redTeam'] > foo['blueTeam'])
-					{
-						return 'red';
-					}
-					else if(foo['redTeam'] < foo['blueTeam'])
-					{
-						return 'blue';
-					}
-					else
-					{
-						return 'green';
-					}
-				})
-				.style('stroke-width', d => {
-					if(foo['redTeam'] > foo['blueTeam'])
-					{
-						let scale = foo['redTeam'] / (foo['redTeam'] + foo['blueTeam']);
-						
-						if(.5 < scale < .75)
-							return 3;
-						if(.75 < scale <= 1.0)
-							return 4;
-					}
-					else if(foo['redTeam'] < foo['blueTeam'])
-					{
-						let scale = foo['blueTeam'] / (foo['redTeam'] + foo['blueTeam']);
-						
-						if(.5 < scale < .75)
-							return 3;
-						if(.75 < scale <= 1.0)
-							return 4;
-					}
-					else
-					{
-						let scale = foo['redTeam'] / (foo['redTeam'] + foo['blueTeam']);
-						
-						if(scale == .5)
-							return 2;
-						else
-							return 1;
-					}
-				})
-				;
-		}
+		
 	}
 
   /**
