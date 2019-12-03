@@ -18,91 +18,135 @@ class NodeGraph {
      * information.
      */
   createGraph(time) {
-	  let count = 0;
-	let help = this.data['graphData'];
-	
-	//console.log(help);
-	
-	//let ent = help.entries();
-	
-	for(let link in help) {
-		//console.log(help[link]);
-		if(count < help[link]['edgeStartNode'])
-		{
-			
-			count = help[link]['edgeStartNode'];
-		}
-	}
-	
-	//console.log(count);
-	
-	let myList = [];
-	
-	for(let i = 0; i <= count; i++)
-	{
-		myList.push(i);
-	}
-	
-	//console.log(myList);
-	
-	let svg = d3.select("#nodeGraph")
-		.select('svg')
-		.append('g')
-	;
-	
-	let circles = svg.selectAll('circle')
-		.data(myList)
-		.enter()
-	;
-	
-	let mod = 3.6;
-	let xmod = 100;
-	let ymod = 100
-	
-	circles.append('circle')
-		.attr('cx', d => d * xmod + 100)
-		.attr('cy', d => d%mod * ymod + 100)
-		.attr('r', 2)
-	;
-	
-	let lines = svg.selectAll('path')
-		.data(Object.values(help))
-		.enter()
-	;
-	
-	console.log(Object.keys(help));
-	
-	lines.append('path')
-		.attr('d', d => { 
-		
-			//console.log(d['edgeStarteight'], d['edgeEndeight']);
-			let bump = 0;
-			if(d['edgeStartNode'] < d['edgeEndNode'])
-			{
-				bump = Math.abs(d['edgeEndNode']%mod + 200+d['edgeStartNode']%mod)/2 + d['edgeWeight'] * 20;
-			} else {
-				bump = -Math.abs(d['edgeEndNode']%mod + 200+d['edgeStartNode']%mod)/2 + d['edgeWeight'] * 20;
-			}
-		
-			return `M ${d['edgeStartNode'] * xmod + 100} ${d['edgeStartNode']%mod*ymod + 100} 
-			Q ${Math.abs(d['edgeEndNode']*xmod + 200 +d['edgeStartNode']*xmod)/2} ${bump}
-			${d['edgeEndNode']*xmod + 100} ${d['edgeEndNode']%mod * ymod + 100}`;
-		})
-		.attr('id', (d,i) => 'link_' + Object.keys(help)[i] )
-		.attr('fill', 'none')
-		// .attr('stroke-width', '2')
-		.attr('stroke', 'black')
-	;
-	
-	this.updateGraph(0, 'current');
+
+    //initialize function parameters
+	  let nodes = {};
+	  let links = [];
+	  let graph = {};
+	  graph.nodes = [];
+	  graph.links = [];
+	  let help = this.data['graphData'];
+	  let svgHeight = 1000;
+	  let svgWidth = 1000;
+	  let edgeStrokeWidth = 3;
+	  let nodeCircleRadius = 5;
+
+    //format link data
+    for(const property in help){
+      let link = help[property];
+      let tempLink = {};
+      tempLink.source = link.edgeStartNode;
+      tempLink.target = link.edgeEndNode;
+      tempLink.value= link.edgeWeight;
+      graph.links.push(tempLink);
+    }
+
+	  //format node data
+    graph.links.forEach(function(link){
+
+      if(graph.nodes.filter( e => e.id === link.source).length <= 0)
+      {
+        graph.nodes.push({id:link.source});
+      }
+
+      if(graph.nodes.filter( e => e.id === link.target).length <= 0)
+      {
+        graph.nodes.push({id:link.target});
+      }
+    });
+
+
+	  //define svg container
+	  let svg = d3.select("#nodeGraph")
+	  	.select('svg')
+      .attr("height",svgHeight)
+      .attr("width",svgWidth)
+	  ;
+
+    //create force layout
+    let simulation= d3.forceSimulation()
+      .force("link", d3.forceLink().id(function(d){return d.id;}).distance( d => d.value))
+      .force("charge", d3.forceManyBody())
+      .force("center", d3.forceCenter(svgWidth/2, svgHeight/2))
+    ;
+
+    //define link elements
+    let link = svg.append("g")
+      .attr("class","links")
+      .selectAll("line")
+      .data(graph.links)
+      .enter()
+      .append("line")
+      .style("stroke-width",edgeStrokeWidth)
+      .style("stroke","black")
+    ;
+
+    //define node elements
+    let node = svg.append("g")
+      .attr("class","nodes")
+      .selectAll("g")
+      .data(graph.nodes)
+      .enter()
+      .append("g")
+    ;
+
+    //define circle elements for each node
+    let circles = node.append("circle")
+      .attr('r',nodeCircleRadius)
+      .attr("fill","black")
+      .call(d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended))
+    ;
+
+    //add nodes to simulation
+    simulation
+      .nodes(graph.nodes)
+      .on("tick", ticked)
+    ;
+
+    //add links to simulation
+    simulation
+      .force("link",d3.forceLink(graph.links).id(function(d,i){return d.id}))
+    ;
+
+    function ticked(){
+      node.attr("transform", function(d) {
+        return "translate(" + d.x + "," + d.y + ")";
+      });
+      link.attr('x1', function(d) {return d.source.x; })
+          .attr('y1', function(d) {return d.source.y; })
+          .attr('x2', function(d) {return d.target.x; })
+          .attr('y2', function(d) {return d.target.y; })
+    }
+
+    function dragstarted(d){
+      if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+    }
+
+    function dragged(d){
+      d.fx = d3.event.x;
+      d.fy = d3.event.y;
+    }
+
+    function dragended(d){
+      if(!d3.event.active) simulation.alplhaTarget(0);
+      d.fx = null;
+      d.fy = null;
+    }
+	  this.updateGraph(0, 'current');
   };
+
 
   /**
    * Updates the link colors based on the attribute selected.  Updates the widths
    * of each link based on the percentage of players that are on that link and which
    * team has the majority.
    *
-   * @param time: specific time of the simulation. (send -1 if you don't want to change the time). 
+   * @param time: specific time of the simulation. (send -1 if you don't want to change the time).
    *        variable: selected variable. (send 'current' if you don't want to change the variable).
    */
 	updateGraph(time, variable) {
@@ -110,31 +154,31 @@ class NodeGraph {
 		{
 			this.variable = variable;
 		}
-		
+
 		if(time != -1)
 		{
 			this.time = time;
 		}
-		
+
 		console.log(this.variable, time);
 		let list = Object.keys(this.data['graphData']);
-		
+
 		let linkData = {};
-		
+
 		if(this.variable == 'players')
-		{	
+		{
 			for(let i=0; i < list.length; i++)
 			{
 				//console.log(list[i]);
 				linkData[list[i]] = {'redTeam' : 0, 'blueTeam' : 0};
 			}
-			
+
 			for(let key in this.data['playerData'])
 			{
 				//console.log(key);
 				let edge = this.data['playerData'][key][this.time]['player_edge'];
 				//linkData[key[this.time]['player_edge']]++;
-				
+
 				if(this.data['playerData'][key][this.time]['player_team'] == 1)
 				{
 					linkData[edge];
@@ -146,13 +190,13 @@ class NodeGraph {
 				}
 			}
 		}
-		
+
 		console.log(linkData);
-		
+
 		for(let i=0; i < list.length; i++)
 		{
 			let foo = linkData[list[i]];
-			
+
 			let path = d3.select('#link_' + list[i])
 				.style('stroke', d => {
 					if(foo['redTeam'] > foo['blueTeam'])
@@ -172,7 +216,7 @@ class NodeGraph {
 					if(foo['redTeam'] > foo['blueTeam'])
 					{
 						let scale = foo['redTeam'] / (foo['redTeam'] + foo['blueTeam']);
-						
+
 						if(.5 < scale < .75)
 							return 3;
 						if(.75 < scale <= 1.0)
@@ -181,7 +225,7 @@ class NodeGraph {
 					else if(foo['redTeam'] < foo['blueTeam'])
 					{
 						let scale = foo['blueTeam'] / (foo['redTeam'] + foo['blueTeam']);
-						
+
 						if(.5 < scale < .75)
 							return 3;
 						if(.75 < scale <= 1.0)
@@ -190,7 +234,7 @@ class NodeGraph {
 					else
 					{
 						let scale = foo['redTeam'] / (foo['redTeam'] + foo['blueTeam']);
-						
+
 						if(scale == .5)
 							return 2;
 						else
@@ -205,6 +249,6 @@ class NodeGraph {
    * Removes all highlighting from the tree.
    */
   clearGraph() {
-    
+
   }
 }
