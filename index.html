@@ -16,7 +16,7 @@
 </div>
 
 
-<div id="teamTable" style="width:200px"> <table>
+<div id="teamTable" style="width:200px"><h2>Table Stats</h2> <table>
   <thead>
   <tr>
     <th id="Positions"><button>Positions</button></th>
@@ -43,12 +43,24 @@
   </tbody>
 </table></div>
 
-<div id="nodeGraph">
-  <svg width="1000" height="1000"></svg>
+<div>
+	<div>
+		<h2>MAP</h2>
+	</div>
+	<div>
+		<h3 id="whichTeam">Both Teams</h3>
+	</div>
+	<div>
+		<svg height="100">
+		</svg>
+	</div>
+	<div id="nodeGraph">
+		<svg width="1000" height="1000"></svg>
+	</div>
 </div>
 
 
-<div id="timeSeriesGraph1"> </div>
+<div id="timeSeriesGraph1"><h2>Reward Graph:</h2> </div>
 <div id="timeSeriesGraph2"> </div>
 <script src="https://unpkg.com/d3-simple-slider"></script>
 <script type="application/javascript" src="js/timeSelect.js"></script>

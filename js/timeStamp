@@ -1,0 +1,18 @@
+class TimeStamp {
+
+	constructor(time, path){
+		this.time = time;
+		this.path = path;
+		
+		this.players = [];
+		this.items = [];
+	};
+	
+	addPlayer(player){
+		this.players.push(player);
+	};
+	
+	addItem(item){
+		this.items.push(item);
+	};
+}
