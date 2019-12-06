@@ -88,6 +88,12 @@ class NodeGraph {
 	      this.updateGraph(0, 'current', 0);
   };
 
+
+populateLinkData(list)
+{
+
+}
+
   /**
    * Updates the link colors based on the attribute selected.  Updates the widths
    * of each link based on the percentage of players that are on that link and which
@@ -168,19 +174,17 @@ class NodeGraph {
 		;
 
     //initialize link data variable
-    let linkData = {};
-		for(let i=0; i < list.length; i++)
+    let linkData = {
+    'tbh' : 0, 'tbf' : 0, 'tbr' : 0,
+      'trh' : 0, 'trf' : 0, 'trr' : 0};
+
+    for(let i=0; i < list.length; i++)
 		{
-			linkData[list[i]] = {'redTeam' : 0, 'blueTeam' : 0, 'rh' : 0, 'bh' : 0, 'rf' : 0, 'bf' : 0, 'rr' : 0, 'br' : 0};
+			linkData[list[i]] = {'redTeam' : 0, 'blueTeam' : 0,
+        'rh' : 0, 'bh' : 0, 'rf' : 0,
+        'bf' : 0, 'rr' : 0, 'br' : 0};
 		}
 
-		//initialize total value variables
-    let totalRedHealth = 0;
-		let totalBlueHealth = 0;
-		let totalRedFuel = 0;
-		let totalBlueFuel = 0;
-		let totalRedReward = 0;
-		let totalBlueReward = 0;
 		//iterate over each player in the graph, and record to which edge the player corresponds
 		for(let key in this.data['playerData'])
 		{
@@ -197,9 +201,9 @@ class NodeGraph {
 				linkData[edge]['rr'] += this.data['playerData'][key][this.time]['reward'];
 
 				//update total values
-        totalRedHealth += this.data['playerData'][key][this.time]['health'];
-        totalRedFuel += this.data['playerData'][key][this.time]['fuel'];
-        totalRedReward+= this.data['playerData'][key][this.time]['reward'];
+        linkData['trh'] += this.data['playerData'][key][this.time]['health'];
+        linkData['trf'] += this.data['playerData'][key][this.time]['fuel'];
+        linkData['trr'] += this.data['playerData'][key][this.time]['reward'];
 			}
 			else if(this.data['playerData'][key][this.time]['player_team'] === -1 && (this.team === -1 || this.team === 0))
 			{
@@ -210,9 +214,9 @@ class NodeGraph {
 				linkData[edge]['br'] += this.data['playerData'][key][this.time]['reward'];
 
 				//update total values
-        totalBlueHealth += this.data['playerData'][key][this.time]['health'];
-        totalBlueFuel += this.data['playerData'][key][this.time]['fuel'];
-        totalBlueReward += this.data['playerData'][key][this.time]['reward'];
+        linkData['tbh'] += this.data['playerData'][key][this.time]['health'];
+        linkData['tbf'] += this.data['playerData'][key][this.time]['fuel'];
+        linkData['tbr'] += this.data['playerData'][key][this.time]['reward'];
 			}
 		}
 
@@ -296,6 +300,8 @@ class NodeGraph {
 						if(this.team === 1)
 						{
               let currRedHealth = foo['rh'];
+              let totalBlueHealth = linkData['tbh'];
+              let totalRedHealth = linkData['trh'];
               let totalHealth = totalBlueHealth + totalRedHealth;
               let scaleValue = currRedHealth/(totalHealth + 0.00001) * 100;
 							return colorScaleH(scaleValue);
@@ -303,6 +309,8 @@ class NodeGraph {
 						else
 						{
               let currBlueHealth = foo['bh'];
+              let totalBlueHealth = linkData['tbh'];
+              let totalRedHealth = linkData['trh'];
               let totalHealth = totalBlueHealth + totalRedHealth;
               let scaleValue = currBlueHealth/(totalHealth+ 0.00001)*100;
 							return colorScaleH(scaleValue);
@@ -313,7 +321,7 @@ class NodeGraph {
 							.append('title')
 							.text(function(d,i) {
 								//console.log(foo);
-								return 'red: ' + foo['rh'].toFixed(2) + ', blue: ' + foo['bh'].toFixed(2) + ' incorrect';
+								return 'red health: ' + foo['rh'].toFixed(2) + ', blue health: ' + foo['bh'].toFixed(2) + ' incorrect';
 							})
 						;
 					})
@@ -337,13 +345,17 @@ class NodeGraph {
 						if(this.team === 1)
 						{
               let currRedFuel= foo['rf'];
+              let totalRedFuel = linkData['trf'];
+              let totalBlueFuel = linkData['tbf'];
               let totalFuel = totalRedFuel + totalBlueFuel;
-              let scaleValue = currRedFuel/(totalFuel + 0.00001);
+              let scaleValue = currRedFuel/(totalFuel + 0.00001)*100;
 							return colorScaleF(scaleValue);
 						}
 						else
 						{
-						  let currBlueFuel = foo['rf'];
+						  let currBlueFuel = foo['bf'];
+              let totalRedFuel = linkData['trf'];
+              let totalBlueFuel = linkData['tbf'];
               let totalFuel = totalRedFuel + totalBlueFuel;
 						  let scaleValue = currBlueFuel / (totalFuel + 0.00001) * 100;
 							return colorScaleF(scaleValue);
@@ -354,8 +366,7 @@ class NodeGraph {
 						d3.select(this)
 							.append('title')
 							.text(function(d,i) {
-								//console.log(foo);
-								return 'red: ' + foo['rf'].toFixed(2) + ', blue: ' + foo['bf'].toFixed(2) + ' incorrect';
+								return 'red fuel: ' + foo['rf'].toFixed(2) + ', blue fuel: ' + foo['bf'].toFixed(2) + ' incorrect';
 							})
 						;
 					})
@@ -377,13 +388,18 @@ class NodeGraph {
 					{
 						if(this.team === 1)
 						{
+						  let totalRedReward = linkData['trr'];
+						  let totalBlueReward = linkData['tbr'];
 						  let totalReward = totalRedReward + totalBlueReward;
               let currRedReward= foo['rr'];
               let scaleValue = currRedReward/(totalReward + 0.00001)*100;
+              console.log(currRedReward);
 							return colorScaleR(scaleValue);
 						}
 						else
 						{
+              let totalRedReward = linkData['trr'];
+              let totalBlueReward = linkData['tbr'];
 						  let totalReward = totalRedReward + totalBlueReward;
 						  let currBlueReward = foo['br'];
 						  let scaleValue = currBlueReward/(totalReward + 0.00001)*100;
