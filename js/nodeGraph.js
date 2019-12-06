@@ -3,12 +3,13 @@ class NodeGraph {
     /**
      * Creates a Tree Object
      */
-    constructor(dataset) {
+    constructor(dataset, timeStamp) {
 		console.log('node graph');
 		this.data = dataset;
 		this.variable = 'players';
 		this.time = 0;
 		this.team = 0;
+		this.key = timeStamp;
     }
 
     /**
@@ -262,6 +263,8 @@ calcTitle(linkData, list, i)
 
     if(this.variable === 'players')
     {
+	  this.key.updateKey(colorScale);
+		
       for(let i=0; i < list.length; i++)
       {
         let foo = linkData[list[i]];
