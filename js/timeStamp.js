@@ -25,6 +25,22 @@ class TimeStamp {
 		svg.selectAll('rect').remove();
 		svg.selectAll('g').remove();
 		
+		svg.append('text')
+			.attr('transform', 'rotate(-90)')
+			.attr('x', -300)
+			.attr('y', 50)
+			.html(d => {
+				if(variable == 'players')
+				{
+					return 'Percentage of Team Edge Possession';
+				}
+				else
+				{
+					return 'Percentage of team ' + variable;
+				}
+			})
+		;
+		
 		let rects = svg.selectAll('g')
 			.data(myData)
 			.enter();
@@ -32,7 +48,7 @@ class TimeStamp {
 		let gs = rects.append('g');
 		
 		gs.append('rect')
-			.attr('x', 5)
+			.attr('x', 150)
 			.attr('y', (d,i) => i * size)
 			.attr('width', 50)
 			.attr('height', size)
@@ -40,15 +56,20 @@ class TimeStamp {
 		;
 		
 		gs.append('text')
-			.attr('x', 60)
+			.attr('x', d => {
+				if(d != 100 && d != -100)
+					return 115;
+				else
+					return 20;
+			})
 			.attr('y', (d,i) => i * size + size/2 + 5)
 			.html(d => {
 				if(variable == 'players')
 				{
 					if(d == 100)
-						return '100% Red ' + variable;
+						return '100% more Red ';
 					else if(d == -100)
-						return '100% Blue ' + variable;
+						return '100% more Blue ';
 					if(d < 0 && d % 20 == 0)
 						return '' + -d + '%';
 				}
