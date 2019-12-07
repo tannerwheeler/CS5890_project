@@ -43,7 +43,6 @@ class TimeStamp {
 			.attr('x', 60)
 			.attr('y', (d,i) => i * size + size/2 + 5)
 			.html(d => {
-				console.log(d%20);
 				if(variable == 'players')
 				{
 					if(d == 100)

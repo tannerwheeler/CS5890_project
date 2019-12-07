@@ -372,7 +372,7 @@ calcTitle(linkData, list, i)
 
           })
           .on('mouseover', function(d,i) {
-            d3.select(this)
+			d3.select(this)
               .append('title')
               .text(function(d,i) {
                 return 'red fuel: ' + foo['rf'].toFixed(2) + ', blue fuel: ' + foo['bf'].toFixed(2) + ' incorrect';

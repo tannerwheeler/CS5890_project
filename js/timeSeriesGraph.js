@@ -9,7 +9,7 @@ class TimeSeriesGraph {
 	this.data = graphData;
 	this.time = 0;
 	
-	this.attr1 = 'reward';
+	this.attr1 = 'health';
 	this.attr2 = 'health';
 	
 	let temp = this;
@@ -352,7 +352,6 @@ class TimeSeriesGraph {
   }
 
   updateGraph(time) {
-	  console.log('hit');
 	this.time = time;
     this.updateFirstGraph(time);
 	this.updateSecondGraph(time);
