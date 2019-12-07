@@ -352,6 +352,7 @@ class TimeSeriesGraph {
   }
 
   updateGraph(time) {
+	  console.log('hit');
 	this.time = time;
     this.updateFirstGraph(time);
 	this.updateSecondGraph(time);

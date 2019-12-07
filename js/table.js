@@ -62,7 +62,7 @@ class Table {
    */
 	updateTable(time) {
 		
-		console.log(time);
+		//console.log(time);
 		
 		let teamOneCount = 0;
 		let teamTwoCount = 0;
