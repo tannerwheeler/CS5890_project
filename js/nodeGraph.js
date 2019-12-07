@@ -164,7 +164,12 @@ calcFillIndicator(linkData,list,i,colorScale)
     let foo = linkData[list[i]];
     let redValue = foo['redTeam'];
     let bluValue = foo['blueTeam'];
-    let indicator = (redValue - bluValue)/(redValue + bluValue + 0.00001) * 100;
+    let indicator = 0;
+	
+	if(redValue + bluValue != 0)
+		indicator = (redValue - bluValue)/(redValue + bluValue) * 100;
+	else
+		return 'none';
     return colorScale(indicator);
   }
 }
@@ -221,11 +226,11 @@ calcTitle(linkData, list, i)
 
 
     //define color range and domain for team colors
-    let domain = [-100, 0, 100];
-    let range = ["#063e78","#229954", "#860308"];
+    let domain = [-100, -40, -0.1, 0, 0.1, 40, 100];
+    let range = ["#2980B9","#5499C7","#ffffff","#229954","#ffffff","#CD6155","#C0392B"];
 
     //define domain for health, fuel, and reward
-    let cdomain = [0,100];
+    let cdomain = [0,50,100];
 
     //define health range
     let hrange = ["#ffffff","#27AE60"];
@@ -234,7 +239,7 @@ calcTitle(linkData, list, i)
     let frange = ["#ffffff","#D35400"];
 
     //define reward range
-    let rrange = ["#ffffff","#8E44AD"];
+    let rrange = ["#ffffff","#A569BD","#8E44AD"];
 
     //ColorScale be used for percentage of team
     let colorScale = d3.scaleLinear()
@@ -259,11 +264,12 @@ calcTitle(linkData, list, i)
 
     //initialize link data variable
     let linkData = this.populateLinkData(list);
+	//console.log(linkData);
 
 
     if(this.variable === 'players')
     {
-	  this.key.updateKey(colorScale);
+	  this.key.updateKey(colorScale, this.variable);
 		
       for(let i=0; i < list.length; i++)
       {
@@ -286,6 +292,8 @@ calcTitle(linkData, list, i)
     //populating colors for Health
     if(this.variable === 'health')
     {
+	  this.key.updateKey(colorScaleH, this.variable);
+		
       for(let i=0; i < list.length; i++)
       {
         let foo = linkData[list[i]];
@@ -331,6 +339,8 @@ calcTitle(linkData, list, i)
     //populating colors for Fuel
     if(this.variable === 'fuel')
     {
+	  this.key.updateKey(colorScaleF, this.variable);
+		
       for(let i=0; i < list.length; i++)
       {
         let foo = linkData[list[i]];
@@ -376,6 +386,8 @@ calcTitle(linkData, list, i)
     //populating the colors for Reward
     if(this.variable === 'reward')
     {
+	  this.key.updateKey(colorScaleR, this.variable);
+		
       for(let i=0; i < list.length; i++)
       {
         let foo = linkData[list[i]];

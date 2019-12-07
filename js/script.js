@@ -19,5 +19,5 @@ d3.json('data/gameData.json').then(function(data) {
     // table.updateTable();
 
 	slider.createSlider();
-	tsg.updateGraph('1',0,'reward');
+	tsg.updateGraph(0);
 });

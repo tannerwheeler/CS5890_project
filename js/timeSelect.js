@@ -99,7 +99,7 @@ class TimeSelect{
 				
 				this.nodeGraph.updateGraph(d, 'current', 1000);
 				this.table.updateTable(d);
-				this.timeSeriesGraph.updateGraph('1',d,'reward');
+				this.timeSeriesGraph.updateGraph(d);
 			})
 		;
 		

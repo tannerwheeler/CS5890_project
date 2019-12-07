@@ -97,8 +97,27 @@
 </table>
 
 
-<div id="timeSeriesGraph1"><h2>Reward Graph:</h2> </div>
+<div id="timeSeriesGraph1">
+<h2>Comparison Graphs:</h2>
+<div>
+	Graph 1:
+		<select id="graph1Select">
+			<option value="health">Health</option>
+			<option value="fuel">Fuel</option>
+			<option value="reward">Reward</option>
+		</select>
+		
+	Graph 2:
+		<select id="graph2Select">
+			<option value="health">Health</option>
+			<option value="fuel">Fuel</option>
+			<option value="reward">Reward</option>
+		</select>
+</div>
+</div>
 <div id="timeSeriesGraph2"> </div>
+
+
 <script src="https://unpkg.com/d3-simple-slider"></script>
 <script type="application/javascript" src="js/timeSelect.js"></script>
 <script type="application/javascript" src="js/table.js"></script>
