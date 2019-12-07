@@ -136,14 +136,14 @@ class TimeSeriesGraph {
     //show x axis
     let xAxisGroup = svg.append("g")
       .attr('transform',`translate(${yAxisWidth + axisBuffer}, ${graphHeight + xAxisHeight + yMargin})`)
-      .attr("id","xAxis")
+      .attr("id","xAxis1")
       .call(xAxis)
       .selectAll("text")
       .attr("transform","translate(0,5)rotate(0)");
 
     //show y axis
     svg.append("g")
-      .attr("id","yAxis")
+      .attr("id","yAxis1")
       .attr('transform',`translate(${yAxisWidth},${axisBuffer + yMargin})`)
       .call(yAxis);
 
@@ -294,14 +294,14 @@ class TimeSeriesGraph {
     //show x axis
     let xAxisGroup = svg.append("g")
       .attr('transform',`translate(${yAxisWidth + axisBuffer}, ${graphHeight + xAxisHeight + yMargin})`)
-      .attr("id","xAxis")
+      .attr("id","xAxis2")
       .call(xAxis)
       .selectAll("text")
       .attr("transform","translate(0,5)rotate(0)");
 
     //show y axis
     svg.append("g")
-      .attr("id","yAxis")
+      .attr("id","yAxis2")
       .attr('transform',`translate(${yAxisWidth},${axisBuffer + yMargin})`)
       .call(yAxis);
 

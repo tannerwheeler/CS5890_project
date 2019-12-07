@@ -3,13 +3,15 @@ class NodeGraph {
     /**
      * Creates a Tree Object
      */
-    constructor(dataset, timeStamp) {
+    constructor(dataset, timeStamp, mapLink) {
 		console.log('node graph');
 		this.data = dataset;
 		this.variable = 'players';
 		this.time = 0;
 		this.team = 0;
 		this.key = timeStamp;
+		this.links = mapLink;
+		this.mapLinks = {};
     }
 
     /**
@@ -130,13 +132,15 @@ populateLinkData(list)
 {
   let linkData = {
     'tbh' : 0, 'tbf' : 0, 'tbr' : 0,
-    'trh' : 0, 'trf' : 0, 'trr' : 0};
+    'trh' : 0, 'trf' : 0, 'trr' : 0,
+	'players': [], 'items': []};
 
   for(let i=0; i < list.length; i++)
   {
     linkData[list[i]] = {'redTeam' : 0, 'blueTeam' : 0,
       'rh' : 0, 'bh' : 0, 'rf' : 0,
-      'bf' : 0, 'rr' : 0, 'br' : 0};
+      'bf' : 0, 'rr' : 0, 'br' : 0,
+	  'players': [], 'items': []};
   }
 
   //iterate over each player in the graph, and record to which edge the player corresponds
@@ -144,6 +148,8 @@ populateLinkData(list)
   {
     //define the current player's edge id
     let edge = this.data['playerData'][key][this.time]['player_edge'];
+	
+	linkData[edge]['players'].push(this.data['playerData'][key][this.time]);
 
     //identify to which team the current player corresponds ??: why the second check?
     if(this.data['playerData'][key][this.time]['player_team'] === 1 && (this.team === 1 || this.team === 0))
@@ -173,8 +179,15 @@ populateLinkData(list)
       linkData['tbr'] += this.data['playerData'][key][this.time]['reward'];
     }
   }
+  
+  for(let key in this.data['itemData'])
+  {
+	  let edge = this.data['itemData'][key][this.time]['edge'];
+	  
+	  linkData[edge]['items'].push(this.data['itemData'][key][this.time]);
+  }
+  
   return linkData;
-
 }
 
 calcStrokeIndicator(linkData, list, i, colorScale)
@@ -203,7 +216,7 @@ calcFillIndicator(linkData,list,i,colorScale)
 	if(redValue + bluValue != 0)
 		indicator = (redValue - bluValue)/(redValue + bluValue) * 100;
 	else
-		return 'none';
+		return '#fffffe';
     return colorScale(indicator);
   }
 }
@@ -312,6 +325,19 @@ calcTitle(linkData, list, i)
       for(let i=0; i < list.length; i++)
       {
         let foo = linkData[list[i]];
+		let g = d3.select('#link_'+list[i]).on('click', d => {
+			if(this.mapLinks[list[i]])	
+			{
+				delete this.mapLinks[list[i]];
+			}
+			else
+			{
+				this.mapLinks[list[i]] = linkData[list[i]];
+			}
+			
+			this.links.updateMapLinks(this.mapLinks);
+		  });
+		  
         let path = d3.select('#link_' + list[i]).select('rect')
           .style('stroke', this.calcStrokeIndicator(linkData,list,i,colorScale))
           .style('stroke-width', 4)
@@ -329,13 +355,18 @@ calcTitle(linkData, list, i)
 		gPath.selectAll('text').remove();
 		gPath.append('text')
 			.attr('x', d => d.edgeEndNode * 65 + 95)
-			.attr('y', d => d.edgeStartNode * 65 + 110)
+			.attr('y', d => d.edgeStartNode * 65 + 105)
 			.html('R: ' + linkData[list[i]]['redTeam']);
 			
 		gPath.append('text')
 			.attr('x', d => d.edgeEndNode * 65 + 95)
-			.attr('y', d => d.edgeStartNode * 65 + 130)
+			.attr('y', d => d.edgeStartNode * 65 + 125)
 			.html('B: ' + linkData[list[i]]['blueTeam']);
+			
+		gPath.append('text')
+			.attr('x', d => d.edgeEndNode * 65 + 95)
+			.attr('y', d => d.edgeStartNode * 65 + 145)
+			.html('Key: ' + list[i]);
       }
     }
 
@@ -388,13 +419,18 @@ calcTitle(linkData, list, i)
 		gPath.selectAll('text').remove();
 		gPath.append('text')
 			.attr('x', d => d.edgeEndNode * 65 + 90)
-			.attr('y', d => d.edgeStartNode * 65 + 110)
+			.attr('y', d => d.edgeStartNode * 65 + 105)
 			.html('RH: ' + linkData[list[i]]['rh'].toFixed(1));
 			
 		gPath.append('text')
 			.attr('x', d => d.edgeEndNode * 65 + 90)
-			.attr('y', d => d.edgeStartNode * 65 + 130)
+			.attr('y', d => d.edgeStartNode * 65 + 125)
 			.html('BH: ' + linkData[list[i]]['bh'].toFixed(1));
+			
+		gPath.append('text')
+			.attr('x', d => d.edgeEndNode * 65 + 90)
+			.attr('y', d => d.edgeStartNode * 65 + 145)
+			.html('Key: ' + list[i]);
       }
     }
 
@@ -447,13 +483,18 @@ calcTitle(linkData, list, i)
 		gPath.selectAll('text').remove();
 		gPath.append('text')
 			.attr('x', d => d.edgeEndNode * 65 + 90)
-			.attr('y', d => d.edgeStartNode * 65 + 110)
+			.attr('y', d => d.edgeStartNode * 65 + 105)
 			.html('RF: ' + linkData[list[i]]['rf'].toFixed(1));
 			
 		gPath.append('text')
 			.attr('x', d => d.edgeEndNode * 65 + 90)
-			.attr('y', d => d.edgeStartNode * 65 + 130)
+			.attr('y', d => d.edgeStartNode * 65 + 125)
 			.html('BF: ' + linkData[list[i]]['bf'].toFixed(1));
+			
+		gPath.append('text')
+			.attr('x', d => d.edgeEndNode * 65 + 90)
+			.attr('y', d => d.edgeStartNode * 65 + 145)
+			.html('Key: ' + list[i]);
       }
     }
 
@@ -478,7 +519,7 @@ calcTitle(linkData, list, i)
               let totalReward = totalRedReward + totalBlueReward;
               let currRedReward= foo['rr'];
               let scaleValue = currRedReward/(totalReward + 0.00001)*100;
-              console.log(currRedReward);
+              //console.log(currRedReward);
               return colorScaleR(scaleValue);
             }
             else
@@ -505,15 +546,30 @@ calcTitle(linkData, list, i)
 		gPath.selectAll('text').remove();
 		gPath.append('text')
 			.attr('x', d => d.edgeEndNode * 65 + 90)
-			.attr('y', d => d.edgeStartNode * 65 + 110)
+			.attr('y', d => d.edgeStartNode * 65 + 105)
 			.html('RR: ' + linkData[list[i]]['rr'].toFixed(1));
 			
 		gPath.append('text')
 			.attr('x', d => d.edgeEndNode * 65 + 90)
-			.attr('y', d => d.edgeStartNode * 65 + 130)
+			.attr('y', d => d.edgeStartNode * 65 + 125)
 			.html('BR: ' + linkData[list[i]]['br'].toFixed(1));
+			
+		gPath.append('text')
+			.attr('x', d => d.edgeEndNode * 65 + 90)
+			.attr('y', d => d.edgeStartNode * 65 + 145)
+			.html('Key: ' + list[i]);
       }
     }
+	
+	for(let i=0; i < list.length; i++)
+	{	
+		if(this.mapLinks[list[i]])	
+		{
+			this.mapLinks[list[i]] = linkData[list[i]];
+		}
+	}
+	
+	this.links.updateMapLinks(this.mapLinks);
   }
 
   /**
