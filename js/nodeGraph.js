@@ -44,8 +44,36 @@ class NodeGraph {
         myList2.push({'x': 0, 'y': i + 1});
       }
 
-      let svg = d3.select("#nodeGraph")
-        .select('svg')
+      let svgFrame = d3.select("#nodeGraph")
+        .select('svg');
+		
+	  svgFrame.attr('width', (count + 1) * 65 + 200)
+		.attr('height', (count + 1) * 65 + 200)
+	  ;
+		
+	  svgFrame.append('text')
+		.attr('x', 200)
+		.attr('y', 20)
+		.html('Edge End Nodes')
+		.style('text-decoration', 'underline')
+	  ;
+	  
+	  svgFrame.append('text')
+		.attr('x', -300)
+		.attr('y', 20)
+		.html('Edge Start Nodes')
+		.style('text-decoration', 'underline')
+		.attr('transform', 'rotate(-90)')
+	  ;
+	  
+	  svgFrame.append('text')
+		.attr('x', 15)
+		.attr('y', 15)
+		.html('Current Time = 0')
+		.attr('id', 'currentMapTime');
+	  ;
+		
+	  let svg = svgFrame
         .append('g')
       ;
 
@@ -53,18 +81,22 @@ class NodeGraph {
         .data(myList2)
         .enter()
       ;
+	  
+	  let size = 65;
+	  let shiftcirc = 55;
+	  let shiftrect = 90;
 
       squares.append('circle')
-        .attr('cx', d => d.x * 65 + 25)
-        .attr('cy', d => d.y * 65 + 25)
+        .attr('cx', d => d.x * size + shiftcirc)
+        .attr('cy', d => d.y * size + shiftcirc)
         .attr('r', d => 25)
-        .attr('width', d => 60)
-        .attr('height', d => 60)
+        .attr('width', d => shiftrect)
+        .attr('height', d => shiftrect)
       ;
 
       squares.append('text')
-        .attr('x', d => d.x * 65 + 15)
-        .attr('y', d => d.y * 65 + 25)
+        .attr('x', d => d.x * size + shiftcirc - 10)
+        .attr('y', d => d.y * size + shiftcirc)
         .text(d => {
           if (d.x != 0) {
             return d.x - 1;
@@ -80,15 +112,17 @@ class NodeGraph {
         .enter()
       ;
 
-      matrix.append('g').append('rect')
-        .attr('x', d => d.edgeEndNode * 65 + 60)
-        .attr('y', d => d.edgeStartNode * 65 + 60)
+      matrix.append('g')
+	  .attr('id', (d, i) => 'link_' + Object.keys(help)[i]).append('rect')
+        .attr('x', d => d.edgeEndNode * size + shiftrect)
+        .attr('y', d => d.edgeStartNode * size + shiftrect)
         .attr('width', d => 60)
         .attr('height', d => 60)
-        .attr('id', (d, i) => 'link_' + Object.keys(help)[i])
+        
         .append('title').text('')
       ;
-	      this.updateGraph(0, 'current', 0);
+	  
+	  this.updateGraph(0, 'current', 0);
   };
 
 
@@ -209,6 +243,10 @@ calcTitle(linkData, list, i)
     {
       this.team = team;
     }
+	
+	let mapTime = d3.select('#currentMapTime');
+	
+	mapTime.html('Current Time = ' + this.time);
 
     //select header svg ??
     let teamSvg = d3.select('#whichTeam');
@@ -274,7 +312,7 @@ calcTitle(linkData, list, i)
       for(let i=0; i < list.length; i++)
       {
         let foo = linkData[list[i]];
-        let path = d3.select('#link_' + list[i])
+        let path = d3.select('#link_' + list[i]).select('rect')
           .style('stroke', this.calcStrokeIndicator(linkData,list,i,colorScale))
           .style('stroke-width', 4)
           .style('fill', this.calcFillIndicator(linkData,list,i,colorScale))
@@ -286,6 +324,18 @@ calcTitle(linkData, list, i)
             ;
           })
         ;
+		
+		let gPath = d3.select('#link_' + list[i]);
+		gPath.selectAll('text').remove();
+		gPath.append('text')
+			.attr('x', d => d.edgeEndNode * 65 + 95)
+			.attr('y', d => d.edgeStartNode * 65 + 110)
+			.html('R: ' + linkData[list[i]]['redTeam']);
+			
+		gPath.append('text')
+			.attr('x', d => d.edgeEndNode * 65 + 95)
+			.attr('y', d => d.edgeStartNode * 65 + 130)
+			.html('B: ' + linkData[list[i]]['blueTeam']);
       }
     }
 
@@ -298,7 +348,7 @@ calcTitle(linkData, list, i)
       {
         let foo = linkData[list[i]];
 
-        let path = d3.select('#link_' + list[i])
+        let path = d3.select('#link_' + list[i]).select('rect')
           .style('stroke', d => {
             return '#27AE60';
           })
@@ -333,6 +383,18 @@ calcTitle(linkData, list, i)
             ;
           })
         ;
+		
+		let gPath = d3.select('#link_' + list[i]);
+		gPath.selectAll('text').remove();
+		gPath.append('text')
+			.attr('x', d => d.edgeEndNode * 65 + 90)
+			.attr('y', d => d.edgeStartNode * 65 + 110)
+			.html('RH: ' + linkData[list[i]]['rh'].toFixed(1));
+			
+		gPath.append('text')
+			.attr('x', d => d.edgeEndNode * 65 + 90)
+			.attr('y', d => d.edgeStartNode * 65 + 130)
+			.html('BH: ' + linkData[list[i]]['bh'].toFixed(1));
       }
     }
 
@@ -345,7 +407,7 @@ calcTitle(linkData, list, i)
       {
         let foo = linkData[list[i]];
 
-        let path = d3.select('#link_' + list[i])
+        let path = d3.select('#link_' + list[i]).select('rect')
           .style('stroke', d => {
             return '#D35400';
           })
@@ -380,6 +442,18 @@ calcTitle(linkData, list, i)
             ;
           })
         ;
+		
+		let gPath = d3.select('#link_' + list[i]);
+		gPath.selectAll('text').remove();
+		gPath.append('text')
+			.attr('x', d => d.edgeEndNode * 65 + 90)
+			.attr('y', d => d.edgeStartNode * 65 + 110)
+			.html('RF: ' + linkData[list[i]]['rf'].toFixed(1));
+			
+		gPath.append('text')
+			.attr('x', d => d.edgeEndNode * 65 + 90)
+			.attr('y', d => d.edgeStartNode * 65 + 130)
+			.html('BF: ' + linkData[list[i]]['bf'].toFixed(1));
       }
     }
 
@@ -391,7 +465,7 @@ calcTitle(linkData, list, i)
       for(let i=0; i < list.length; i++)
       {
         let foo = linkData[list[i]];
-        let path = d3.select('#link_' + list[i])
+        let path = d3.select('#link_' + list[i]).select('rect')
           .style('stroke', d => {
             return '#8E44AD';
           })
@@ -426,6 +500,18 @@ calcTitle(linkData, list, i)
             ;
           })
         ;
+		
+		let gPath = d3.select('#link_' + list[i]);
+		gPath.selectAll('text').remove();
+		gPath.append('text')
+			.attr('x', d => d.edgeEndNode * 65 + 90)
+			.attr('y', d => d.edgeStartNode * 65 + 110)
+			.html('RR: ' + linkData[list[i]]['rr'].toFixed(1));
+			
+		gPath.append('text')
+			.attr('x', d => d.edgeEndNode * 65 + 90)
+			.attr('y', d => d.edgeStartNode * 65 + 130)
+			.html('BR: ' + linkData[list[i]]['br'].toFixed(1));
       }
     }
   }
