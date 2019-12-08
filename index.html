@@ -2,13 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Visualization - Final Project</title>
+  <title>Multi-Agent Reinforcement Leaning Visualization</title>
   <script src="js/d3.js"></script>
 </head>
 <body>
-<h1> Data Visualization Final Project</h1>
+<h1> Multi-Agent Reinforcement Leaning Visualization</h1>
 <p> Name: Daniel Mortensen; E-Mail: daniel.t.mortensen@gmail.com; A#: A01574901</p>
 <p> Name: Tanner Wheeler; E-Mail: tanner.wheeler@aggiemail.usu.edu; A#: A01770306</p>
+<h3> Introduction</h3>
+<p> In the world of reinforcement learning, there has not been much work done while considering
+how teams can work together to maximize both individual and collective reward.<br>
+  This website aims to provide a visual aid in analyzing data from such a simulation. In this simulation
+  Two teams are considered, referred to as Team 1 and Team 2 respectively. <br>
+  Each team player is allowed to freely move about the playing field where they select actions
+  From a limited action space.  The actions are defined by a policy function which in <br>
+  future iterations will be constructed to maximize reward. Players from opposing teams can also
+  interact by "stealing" resources such as health and fuel.  The objective of the game <br>
+  is for each team to collect all items assigned to it.  The first team to do so is declared the winner.
+
+</p>
+<br>
+<h3>References</h3>
+<a href="">Process Book</a>
+<br>
+<a href="">Data</a>
+<br>
+<a href="">README</a>
 
 <div id="slider">
   <h3 id="timeSelect">Current Simulation Time: 0</h3>
@@ -70,7 +89,7 @@
 				<text></text>
 			</td>
 		</tr>
-		<tr>	
+		<tr>
 			<td valign="top">
 				<div>
 					<svg id="colorKey" height="500" width="200">
@@ -98,7 +117,7 @@
 			<option value="fuel">Fuel</option>
 			<option value="reward">Reward</option>
 		</select>
-		
+
 	Graph 2:
 		<select id="graph2Select">
 			<option value="health">Health</option>
