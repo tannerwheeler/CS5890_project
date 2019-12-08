@@ -4,7 +4,6 @@ class NodeGraph {
      * Creates a Tree Object
      */
     constructor(dataset) {
-		console.log('node graph');
 		this.data = dataset;
 		this.variable = 'players';
 		this.time = 0;
@@ -30,6 +29,7 @@ class NodeGraph {
 	  let svgWidth = 1000;
 	  let edgeStrokeWidth = 3;
 	  let nodeCircleRadius = 5;
+	  let thisGraph = this;
 
     //format link data
     for(const property in help){
@@ -38,6 +38,7 @@ class NodeGraph {
       tempLink.source = link.edgeStartNode;
       tempLink.target = link.edgeEndNode;
       tempLink.value= link.edgeWeight;
+      tempLink.tannersSpecialNumber = property;
       graph.links.push(tempLink);
     }
 
@@ -85,7 +86,8 @@ class NodeGraph {
       .data(graph.links)
       .enter()
       .append("path")
-      .style("stroke-width", d => { console.log(d); return edgeStrokeWidth;})
+      .attr("id",d => 'link_' + d.tannersSpecialNumber)
+      .style("stroke-width", d => {return edgeStrokeWidth;})
       .style("stroke",d => {return d.isNew?"red":"black";})
       .style("fill","none")
     ;
@@ -145,7 +147,6 @@ class NodeGraph {
       link.attr('d', d => {
         let source = d.source.index;
         let target = d.target.index;
-        console.log(d);
         if(!d.isNew)
         {
           let tempNode =helperVar.filter( t => {
@@ -208,7 +209,6 @@ class NodeGraph {
 			this.time = time;
 		}
 
-		console.log(this.variable, time);
 		let list = Object.keys(this.data['graphData']);
 
 		let linkData = {};
@@ -217,13 +217,11 @@ class NodeGraph {
 		{
 			for(let i=0; i < list.length; i++)
 			{
-				//console.log(list[i]);
 				linkData[list[i]] = {'redTeam' : 0, 'blueTeam' : 0};
 			}
 
 			for(let key in this.data['playerData'])
 			{
-				//console.log(key);
 				let edge = this.data['playerData'][key][this.time]['player_edge'];
 				//linkData[key[this.time]['player_edge']]++;
 
