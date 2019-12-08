@@ -77,7 +77,7 @@ class MapLink {
 		graph.append('text')
 			.attr('x', keySpace + 105)
 			.attr('y', 15)
-			.html('= Red Team');
+			.html('= Team 1');
 
 		graph.append('circle')
 			.attr('cx', keySpace + 200)
@@ -89,7 +89,7 @@ class MapLink {
 		graph.append('text')
 			.attr('x', keySpace + 205)
 			.attr('y', 15)
-			.html('= Blue Team');
+			.html('= Team 2');
 
 		graph.append('text')
 			.attr('x', 5)
