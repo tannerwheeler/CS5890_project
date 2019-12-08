@@ -63,14 +63,10 @@ class NodeGraph {
       .attr("width",svgWidth)
 	  ;
 
-    //create force layout
-    let simulation= d3.forceSimulation()
-      .force("link", d3.forceLink().id(function(d){return d.id;}).distance( d => d.value))
-      .force("charge", d3.forceManyBody())
-      .force("center", d3.forceCenter(svgWidth/2, svgHeight/2))
-    ;
 
-    //define link elements
+
+
+    //define graphical link elements
     let link = svg.append("g")
       .attr("class","links")
       .selectAll("line")
@@ -81,7 +77,7 @@ class NodeGraph {
       .style("stroke","black")
     ;
 
-    //define node elements
+    //define graphical node elements
     let node = svg.append("g")
       .attr("class","nodes")
       .selectAll("g")
@@ -94,11 +90,9 @@ class NodeGraph {
     let circles = node.append("circle")
       .attr('r',nodeCircleRadius)
       .attr("fill","black")
-      .call(d3.drag()
-        .on("start", dragstarted)
-        .on("drag", dragged)
-        .on("end", dragended))
     ;
+
+    let simulation= d3.forceSimulation();
 
     //add nodes to simulation
     simulation
@@ -106,10 +100,21 @@ class NodeGraph {
       .on("tick", ticked)
     ;
 
-    //add links to simulation
-    simulation
-      .force("link",d3.forceLink(graph.links).id(function(d,i){return d.id}))
-    ;
+    //define link forces
+    let distFunc = function(link_i, i, link){return link_i.value;};
+    let linkForce = d3.forceLink(graph.links);
+    linkForce.initialize(graph.nodes);
+    linkForce.distance(distFunc);
+    linkForce.strength(0.1);
+
+    //define link forces to simulation
+    simulation.force("link",linkForce);
+    simulation.force("charge", d3.forceManyBody().strength(-4000));
+    simulation.force("center", d3.forceCenter(svgWidth/2, svgHeight/2));
+
+
+
+
 
     function ticked(){
       node.attr("transform", function(d) {
