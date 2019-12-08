@@ -55,6 +55,21 @@ class NodeGraph {
       }
     });
 
+    //record maximum node value for later
+    let maxNodeValue = d3.max(graph.nodes, d => d.id);
+
+    //insert artificial node points in between each set of real nodes
+
+      graph.links.forEach(function(link){
+        let newNodeID = d3.max(graph.nodes, d => d.id) + 1;
+        let link1 = {"source" : link.source, "target" : newNodeID,   "value" : link.value*0.5, "isNew" : true};
+        let link2 = {"source" : newNodeID,   "target" : link.target, "value" : link.value*0.5, "isNew" : true};
+        let newNode = {"id": newNodeID, "isNew" : true, "source" : link.source, "target" : link.target};
+        graph.nodes.push(newNode);
+        graph.links.push(link1);
+        graph.links.push(link2);
+      });
+
 
 	  //define svg container
 	  let svg = d3.select("#nodeGraph")
@@ -63,18 +78,16 @@ class NodeGraph {
       .attr("width",svgWidth)
 	  ;
 
-
-
-
     //define graphical link elements
     let link = svg.append("g")
       .attr("class","links")
-      .selectAll("line")
+      .selectAll("path")
       .data(graph.links)
       .enter()
-      .append("line")
-      .style("stroke-width",edgeStrokeWidth)
-      .style("stroke","black")
+      .append("path")
+      .style("stroke-width", d => { console.log(d); return edgeStrokeWidth;})
+      .style("stroke",d => {return d.isNew?"red":"black";})
+      .style("fill","none")
     ;
 
     //define graphical node elements
@@ -88,7 +101,7 @@ class NodeGraph {
 
     //define circle elements for each node
     let circles = node.append("circle")
-      .attr('r',nodeCircleRadius)
+      .attr('r',d => d.isNew?0:nodeCircleRadius)
       .attr("fill","black")
     ;
 
@@ -97,7 +110,7 @@ class NodeGraph {
     //add nodes to simulation
     simulation
       .nodes(graph.nodes)
-      .on("tick", ticked)
+      .on("tick", ticked.bind(this))
     ;
 
     //define link forces
@@ -109,7 +122,7 @@ class NodeGraph {
 
     //define link forces to simulation
     simulation.force("link",linkForce);
-    simulation.force("charge", d3.forceManyBody().strength(-4000));
+    simulation.force("charge", d3.forceManyBody().strength(-2000));
     simulation.force("center", d3.forceCenter(svgWidth/2, svgHeight/2));
 
 
@@ -117,13 +130,43 @@ class NodeGraph {
 
 
     function ticked(){
-      node.attr("transform", function(d) {
+      let helperVar = [];
+      node.attr("transform", d => {
+        let temp = {};
+        temp.x = d.x;
+        temp.y = d.y;
+        temp.id = d.id;
+        temp.source = d.source;
+        temp.target = d.target;
+        helperVar.push(temp);
         return "translate(" + d.x + "," + d.y + ")";
       });
-      link.attr('x1', function(d) {return d.source.x; })
-          .attr('y1', function(d) {return d.source.y; })
-          .attr('x2', function(d) {return d.target.x; })
-          .attr('y2', function(d) {return d.target.y; })
+
+      link.attr('d', d => {
+        let source = d.source.index;
+        let target = d.target.index;
+        console.log(d);
+        if(!d.isNew)
+        {
+          let tempNode =helperVar.filter( t => {
+            return t.source === source && t.target === target
+          });
+          let  temp = tempNode[0];
+          for(let i =0; i<helperVar.length; i++)
+          {
+            if(helperVar[i] === tempNode[0])
+            {
+              helperVar.splice(i,1);
+            }
+          }
+          return "M " + d.source.x + " " + d.source.y + " Q " + temp.x+ " " + temp.y+ " " + d.target.x + " " + d.target.y;
+        }
+        else{
+          return "";
+        }
+      })
+
+
     }
 
     function dragstarted(d){
@@ -196,7 +239,6 @@ class NodeGraph {
 			}
 		}
 
-		console.log(linkData);
 
 		for(let i=0; i < list.length; i++)
 		{
