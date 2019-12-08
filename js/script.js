@@ -2,7 +2,9 @@ d3.json('data/gameData.json').then(function(data) {
 	console.log(data);
 
 	let tsg = new TimeSeriesGraph(data);
-	let graph = new NodeGraph(data);
+	let ts = new TimeStamp();
+	let mapLink = new MapLink(data);
+	let graph = new NodeGraph(data, ts, mapLink);
 	let table = new Table(data, graph, tsg);
 	let slider = new TimeSelect(data, table, graph, tsg);
 
@@ -18,5 +20,5 @@ d3.json('data/gameData.json').then(function(data) {
     // table.updateTable();
 
 	slider.createSlider();
-	tsg.updateGraph('1',0,'reward');
+	tsg.updateGraph(0);
 });

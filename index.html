@@ -16,43 +16,105 @@
 </div>
 
 
-<div id="teamTable" style="width:200px"> <table>
+<div id="teamTable" style="width:200px"><h2>Table Stats</h2> <table>
   <thead>
   <tr>
-    <th></th>
-    <th id="Team1">Team 1</th>
-    <th id="Team2">Team 2</th>
+    <th id="Positions"><button>Positions</button></th>
+    <th id="Team1"><button>Team 1</button></th>
+    <th id="Team2"><button>Team 2</button></th>
   </tr>
   </thead>
   <tbody>
   <tr>
-    <td class="unitHeader">Health</td>
+    <td class="unitHeader" id="Health"><button>Health</button></td>
     <td id="Healtht1"><!-- A bar chart needs to be added dynamically here --></td>
     <td id="Healtht2"><!-- A bar chart needs to be added dynamically here --></td>
   </tr>
   <tr>
-    <td class="unitHeader">Fuel</td>
+    <td class="unitHeader" id="Fuel"><button>Fuel</button></td>
     <td id="Fuelt1"><!-- A numeric value for fuel needs to be added dynamically here --></td>
     <td id="Fuelt2"><!-- A numeric value for fuel needs to be added dynamically here --></td>
   </tr>
   <tr>
-    <td class="unitHeader">Reward</td>
+    <td class="unitHeader" id="Reward"><button>Reward</button></td>
     <td id="Rewardt1"><!-- A numeric value for reward needs to be added dynamically here --></td>
     <td id="Rewardt2"><!-- A numeric value for reward needs to be added dynamically here --></td>
   </tr>
   </tbody>
 </table></div>
 
-<div id="nodeGraph">
-  <svg width="1000" height="1000"></svg>
+<table>
+	<thead>
+		<tr>
+			<th>
+				<div>
+					<h2>GAME MAP</h2>
+				</div>
+			</th>
+			<th>
+			</th>
+			<th>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td valign="top">
+				<div>
+					<h3 id="whichTeam">Both Teams</h3>
+				</div>
+			</td>
+			<td>
+			</td>
+			<td id="mapLinkScale" valign="bottom">
+				<text></text>
+			</td>
+		</tr>
+		<tr>	
+			<td valign="top">
+				<div>
+					<svg id="colorKey" height="500" width="200">
+					</svg>
+				</div>
+			</td>
+			<td valign="top">
+				<div id="nodeGraph">
+					<svg width="500" height="500"></svg>
+				</div>
+			</td>
+			<td id="mapLinks" valign="top">
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+
+<div id="timeSeriesGraph1">
+<h2>Comparison Graphs:</h2>
+<div>
+	Graph 1:
+		<select id="graph1Select">
+			<option value="health">Health</option>
+			<option value="fuel">Fuel</option>
+			<option value="reward">Reward</option>
+		</select>
+		
+	Graph 2:
+		<select id="graph2Select">
+			<option value="health">Health</option>
+			<option value="fuel">Fuel</option>
+			<option value="reward">Reward</option>
+		</select>
 </div>
-
-
-<div id="timeSeriesGraph1"> </div>
+</div>
 <div id="timeSeriesGraph2"> </div>
+
+
 <script src="https://unpkg.com/d3-simple-slider"></script>
 <script type="application/javascript" src="js/timeSelect.js"></script>
 <script type="application/javascript" src="js/table.js"></script>
+<script type="application/javascript" src="js/timeStamp.js"></script>
+<script type="application/javascript" src="js/mapLink.js"></script>
 <script type="application/javascript" src="js/nodeGraph.js"></script>
 <script type="application/javascript" src="js/timeSeriesGraph.js"></script>
 <script type="application/javascript" src="js/script.js"></script>

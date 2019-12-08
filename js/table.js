@@ -15,6 +15,8 @@ class Table {
     // Store all match data for the 2014 Fifa cup
     this.vizData = vizData;
 
+	this.time = 0;
+	this.team = 1;
 /*
     // Default values for the Table Headers
     this.tableHeaders = ["Delta Goals", "Result", "Wins", "Losses", "TotalGames"];
@@ -62,7 +64,8 @@ class Table {
    */
 	updateTable(time) {
 		
-		console.log(time);
+		//console.log(time);
+		this.time = time;
 		
 		let teamOneCount = 0;
 		let teamTwoCount = 0;
@@ -96,6 +99,59 @@ class Table {
 				teamTwoReward += list[i][time]['reward'];
 			}
 		}
+		
+		let table = this;
+		
+		let pos = d3.select('#Positions')
+			.select('button')
+			.on('click', function() {
+				table.team = 0;
+				table.map.updateGraph(table.time, 'players', table.team);
+			})
+		;
+		
+		let tm1 = d3.select('#Team1')
+			.select('button')
+			.on('click', function() {
+				table.team = 1;
+				table.map.updateGraph(table.time, 'current', table.team);
+			})
+		;
+		
+		let tm2 = d3.select('#Team2')
+			.select('button')
+			.on('click', function() {
+				table.team = -1;
+				table.map.updateGraph(table.time, 'current', table.team);
+			})
+		;
+		
+		let health = d3.select('#Health')
+			.select('button')
+			.on('click', function() {
+				if(table.team == 0)
+					table.team = 1;
+				table.map.updateGraph(-1, 'health', table.team);
+			})
+		;
+		
+		let fuel = d3.select('#Fuel')
+			.select('button')
+			.on('click', function() {
+				if(table.team == 0)
+					table.team = 1;
+				table.map.updateGraph(-1, 'fuel', table.team);
+			})
+		;
+		
+		let reward = d3.select('#Reward')
+			.select('button')
+			.on('click', function() {
+				if(table.team == 0)
+					table.team = 1;
+				table.map.updateGraph(-1, 'reward', table.team);
+			})
+		;
 		
 		let ht1 = d3.select('#Healtht1')
 			.html(teamOneHealth.toFixed(2));
